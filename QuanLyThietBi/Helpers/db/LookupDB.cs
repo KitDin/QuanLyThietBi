@@ -115,7 +115,8 @@ namespace QuanLyThietBi.Helpers.db
         ttb.Thoi_gian_them,
 
         ttb.Don_gia,
-        ttb.Ghi_chu
+        ttb.Ghi_chu,
+        ttb.IP
         FROM Trang_thiet_bi ttb
         JOIN Loai_thiet_bi ltb ON ttb.Ma_loai_thiet_bi = ltb.Ma_loai_thiet_bi
         JOIN Phong_ban pb ON ttb.Ma_phong_ban = pb.Ma_phong_ban
@@ -191,7 +192,9 @@ namespace QuanLyThietBi.Helpers.db
                                 // Đơn giá
                                 Don_gia = rd["Don_gia"] == DBNull.Value
                                     ? (decimal?)null
-                                    : Convert.ToDecimal(rd["Don_gia"])
+                                    : Convert.ToDecimal(rd["Don_gia"]),
+
+                                Dia_chi_IP = rd["IP"] == DBNull.Value ? string.Empty : rd["IP"]?.ToString()
                             });
                         }
                     }

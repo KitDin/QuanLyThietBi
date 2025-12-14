@@ -36,23 +36,22 @@
             tableLayoutPanel3 = new TableLayoutPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             timeCurrent = new Label();
-            button2 = new Button();
-            panelDanhMucCon = new Panel();
-            panelDanhMucConQL = new TableLayoutPanel();
-            btnThietBiCoCauHinh = new Button();
-            btnThietBi = new Button();
-            button5 = new Button();
+            btnThongKe = new Button();
             tableLayoutPanel4 = new TableLayoutPanel();
             label2 = new Label();
             username2 = new Label();
-            button4 = new Button();
             quanLyThietBiButton = new Button();
+            panelDanhMucConQL = new TableLayoutPanel();
+            btnThietBiCoCauHinh = new Button();
+            btnThietBi = new Button();
+            btnQuanLyDanhMuc = new Button();
+            button5 = new Button();
             panelContent = new Panel();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
-            panelDanhMucConQL.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
+            panelDanhMucConQL.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -119,13 +118,12 @@
             tableLayoutPanel3.ColumnCount = 1;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.Controls.Add(flowLayoutPanel1, 0, 0);
-            tableLayoutPanel3.Controls.Add(button2, 0, 1);
-            tableLayoutPanel3.Controls.Add(panelDanhMucCon, 0, 2);
-            tableLayoutPanel3.Controls.Add(panelDanhMucConQL, 0, 5);
-            tableLayoutPanel3.Controls.Add(button5, 0, 7);
+            tableLayoutPanel3.Controls.Add(btnThongKe, 0, 1);
             tableLayoutPanel3.Controls.Add(tableLayoutPanel4, 0, 8);
-            tableLayoutPanel3.Controls.Add(button4, 0, 6);
-            tableLayoutPanel3.Controls.Add(quanLyThietBiButton, 0, 3);
+            tableLayoutPanel3.Controls.Add(quanLyThietBiButton, 0, 2);
+            tableLayoutPanel3.Controls.Add(panelDanhMucConQL, 0, 3);
+            tableLayoutPanel3.Controls.Add(btnQuanLyDanhMuc, 0, 5);
+            tableLayoutPanel3.Controls.Add(button5, 0, 7);
             tableLayoutPanel3.Dock = DockStyle.Left;
             tableLayoutPanel3.ForeColor = SystemColors.ButtonHighlight;
             tableLayoutPanel3.Location = new Point(0, 50);
@@ -140,6 +138,7 @@
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel3.Size = new Size(257, 561);
             tableLayoutPanel3.TabIndex = 2;
@@ -166,33 +165,76 @@
             timeCurrent.Text = "label3";
             timeCurrent.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // btnThongKe
             // 
-            button2.AutoSize = true;
-            button2.Cursor = Cursors.Hand;
-            button2.FlatAppearance.BorderColor = Color.FromArgb(23, 24, 29);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button2.ImageAlign = ContentAlignment.MiddleLeft;
-            button2.Location = new Point(3, 49);
-            button2.Name = "button2";
-            button2.Size = new Size(251, 45);
-            button2.TabIndex = 1;
-            button2.Text = "📊   Thống kê";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = true;
+            btnThongKe.AutoSize = true;
+            btnThongKe.Cursor = Cursors.Hand;
+            btnThongKe.FlatAppearance.BorderColor = Color.FromArgb(23, 24, 29);
+            btnThongKe.FlatStyle = FlatStyle.Flat;
+            btnThongKe.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            btnThongKe.ImageAlign = ContentAlignment.MiddleLeft;
+            btnThongKe.Location = new Point(3, 49);
+            btnThongKe.Name = "btnThongKe";
+            btnThongKe.Size = new Size(251, 45);
+            btnThongKe.TabIndex = 1;
+            btnThongKe.Text = "📊   Thống kê";
+            btnThongKe.TextAlign = ContentAlignment.MiddleLeft;
+            btnThongKe.UseVisualStyleBackColor = true;
+            btnThongKe.Click += btnThongKe_Click;
             // 
-            // panelDanhMucCon
+            // tableLayoutPanel4
             // 
-            panelDanhMucCon.Anchor = AnchorStyles.None;
-            panelDanhMucCon.AutoSize = true;
-            panelDanhMucCon.BackColor = SystemColors.Control;
-            panelDanhMucCon.ForeColor = SystemColors.ActiveCaptionText;
-            panelDanhMucCon.Location = new Point(128, 100);
-            panelDanhMucCon.Name = "panelDanhMucCon";
-            panelDanhMucCon.Size = new Size(0, 0);
-            panelDanhMucCon.TabIndex = 0;
-            panelDanhMucCon.Visible = false;
+            tableLayoutPanel4.Anchor = AnchorStyles.Top;
+            tableLayoutPanel4.ColumnCount = 1;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel4.Controls.Add(label2, 0, 0);
+            tableLayoutPanel4.Controls.Add(username2, 0, 1);
+            tableLayoutPanel4.Location = new Point(3, 355);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 2;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel4.Size = new Size(251, 62);
+            tableLayoutPanel4.TabIndex = 3;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(160, 20);
+            label2.TabIndex = 0;
+            label2.Text = "👤  Người đăng nhập";
+            // 
+            // username2
+            // 
+            username2.AutoSize = true;
+            username2.Dock = DockStyle.Fill;
+            username2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            username2.Location = new Point(3, 31);
+            username2.Name = "username2";
+            username2.Size = new Size(245, 31);
+            username2.TabIndex = 1;
+            username2.Text = "Đinh Tuấn Kiệt";
+            username2.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // quanLyThietBiButton
+            // 
+            quanLyThietBiButton.Cursor = Cursors.Hand;
+            quanLyThietBiButton.FlatAppearance.BorderColor = Color.FromArgb(23, 24, 29);
+            quanLyThietBiButton.FlatStyle = FlatStyle.Flat;
+            quanLyThietBiButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            quanLyThietBiButton.ImageAlign = ContentAlignment.MiddleLeft;
+            quanLyThietBiButton.Location = new Point(3, 100);
+            quanLyThietBiButton.Name = "quanLyThietBiButton";
+            quanLyThietBiButton.Size = new Size(251, 45);
+            quanLyThietBiButton.TabIndex = 2;
+            quanLyThietBiButton.Text = "🖥️   Quản lý trang thiết bị";
+            quanLyThietBiButton.TextAlign = ContentAlignment.MiddleLeft;
+            quanLyThietBiButton.UseVisualStyleBackColor = true;
+            quanLyThietBiButton.Click += quanLyThietBiButton_Click;
             // 
             // panelDanhMucConQL
             // 
@@ -203,12 +245,13 @@
             panelDanhMucConQL.Controls.Add(btnThietBiCoCauHinh, 0, 1);
             panelDanhMucConQL.Controls.Add(btnThietBi, 0, 0);
             panelDanhMucConQL.ForeColor = SystemColors.ActiveCaptionText;
-            panelDanhMucConQL.Location = new Point(0, 154);
+            panelDanhMucConQL.Location = new Point(0, 148);
             panelDanhMucConQL.Margin = new Padding(0);
             panelDanhMucConQL.Name = "panelDanhMucConQL";
             panelDanhMucConQL.RowCount = 2;
             panelDanhMucConQL.RowStyles.Add(new RowStyle());
             panelDanhMucConQL.RowStyles.Add(new RowStyle());
+            panelDanhMucConQL.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             panelDanhMucConQL.Size = new Size(257, 102);
             panelDanhMucConQL.TabIndex = 0;
             panelDanhMucConQL.Visible = false;
@@ -245,6 +288,22 @@
             btnThietBi.UseVisualStyleBackColor = true;
             btnThietBi.Click += btnThietBi_Click;
             // 
+            // btnQuanLyDanhMuc
+            // 
+            btnQuanLyDanhMuc.Cursor = Cursors.Hand;
+            btnQuanLyDanhMuc.FlatAppearance.BorderColor = Color.FromArgb(23, 24, 29);
+            btnQuanLyDanhMuc.FlatStyle = FlatStyle.Flat;
+            btnQuanLyDanhMuc.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            btnQuanLyDanhMuc.ImageAlign = ContentAlignment.MiddleLeft;
+            btnQuanLyDanhMuc.Location = new Point(3, 253);
+            btnQuanLyDanhMuc.Name = "btnQuanLyDanhMuc";
+            btnQuanLyDanhMuc.Size = new Size(251, 45);
+            btnQuanLyDanhMuc.TabIndex = 3;
+            btnQuanLyDanhMuc.Text = "🏢  Quản lý danh mục";
+            btnQuanLyDanhMuc.TextAlign = ContentAlignment.MiddleLeft;
+            btnQuanLyDanhMuc.UseVisualStyleBackColor = true;
+            btnQuanLyDanhMuc.Click += btnQuanLyDanhMuc_Click;
+            // 
             // button5
             // 
             button5.Cursor = Cursors.Hand;
@@ -252,82 +311,13 @@
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             button5.ImageAlign = ContentAlignment.MiddleLeft;
-            button5.Location = new Point(3, 310);
+            button5.Location = new Point(3, 304);
             button5.Name = "button5";
             button5.Size = new Size(251, 45);
             button5.TabIndex = 4;
             button5.Text = "📜  Lịch sử thiết bị";
             button5.TextAlign = ContentAlignment.MiddleLeft;
             button5.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel4
-            // 
-            tableLayoutPanel4.Anchor = AnchorStyles.Top;
-            tableLayoutPanel4.ColumnCount = 1;
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.Controls.Add(label2, 0, 0);
-            tableLayoutPanel4.Controls.Add(username2, 0, 1);
-            tableLayoutPanel4.Location = new Point(3, 361);
-            tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 2;
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.Size = new Size(251, 62);
-            tableLayoutPanel4.TabIndex = 3;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label2.Location = new Point(3, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(160, 20);
-            label2.TabIndex = 0;
-            label2.Text = "👤  Người đăng nhập";
-            // 
-            // username2
-            // 
-            username2.AutoSize = true;
-            username2.Dock = DockStyle.Fill;
-            username2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            username2.Location = new Point(3, 31);
-            username2.Name = "username2";
-            username2.Size = new Size(245, 31);
-            username2.TabIndex = 1;
-            username2.Text = "Đinh Tuấn Kiệt";
-            username2.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // button4
-            // 
-            button4.Cursor = Cursors.Hand;
-            button4.FlatAppearance.BorderColor = Color.FromArgb(23, 24, 29);
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            button4.ImageAlign = ContentAlignment.MiddleLeft;
-            button4.Location = new Point(3, 259);
-            button4.Name = "button4";
-            button4.Size = new Size(251, 45);
-            button4.TabIndex = 3;
-            button4.Text = "🏢  Quản lý phòng ban";
-            button4.TextAlign = ContentAlignment.MiddleLeft;
-            button4.UseVisualStyleBackColor = true;
-            // 
-            // quanLyThietBiButton
-            // 
-            quanLyThietBiButton.Cursor = Cursors.Hand;
-            quanLyThietBiButton.FlatAppearance.BorderColor = Color.FromArgb(23, 24, 29);
-            quanLyThietBiButton.FlatStyle = FlatStyle.Flat;
-            quanLyThietBiButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            quanLyThietBiButton.ImageAlign = ContentAlignment.MiddleLeft;
-            quanLyThietBiButton.Location = new Point(3, 106);
-            quanLyThietBiButton.Name = "quanLyThietBiButton";
-            quanLyThietBiButton.Size = new Size(251, 45);
-            quanLyThietBiButton.TabIndex = 2;
-            quanLyThietBiButton.Text = "🖥️   Quản lý trang thiết bị";
-            quanLyThietBiButton.TextAlign = ContentAlignment.MiddleLeft;
-            quanLyThietBiButton.UseVisualStyleBackColor = true;
-            quanLyThietBiButton.Click += quanLyThietBiButton_Click;
             // 
             // panelContent
             // 
@@ -354,9 +344,9 @@
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
-            panelDanhMucConQL.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
+            panelDanhMucConQL.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -366,16 +356,15 @@
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
         private Button quanLyThietBiButton;
-        private Button button2;
+        private Button btnThongKe;
         private Button button5;
-        private Button button4;
+        private Button btnQuanLyDanhMuc;
         private TableLayoutPanel tableLayoutPanel4;
         private Label label2;
         private Label username2;
         private Label timeCurrent;
         private FlowLayoutPanel flowLayoutPanel1;
         private Panel panelContent;
-        private Panel panelDanhMucCon;
         private TableLayoutPanel panelDanhMucConQL;
         private Button btnThietBiCoCauHinh;
         private Button btnThietBi;

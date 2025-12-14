@@ -196,20 +196,11 @@ namespace QuanLyThietBi
 
         private void ApplyPermission()
         {
-            // Nhân viên
             if (!UserSession.IsAdmin)
             {
-                // Ẩn nút thêm
 
-                // Ẩn các cột hành động
                 if (dgvThietBi.Columns.Contains("btnEdit"))
                     dgvThietBi.Columns["btnEdit"].Visible = false;
-
-                if (dgvThietBi.Columns.Contains("btnDelete"))
-                    dgvThietBi.Columns["btnDelete"].Visible = false;
-
-                if (dgvThietBi.Columns.Contains("btnTransfer"))
-                    dgvThietBi.Columns["btnTransfer"].Visible = false;
             }
         }
 

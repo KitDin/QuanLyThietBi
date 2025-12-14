@@ -37,7 +37,8 @@ namespace QuanLyThietBi.Helpers.db
         t.Thoi_gian_them,
 
         t.Don_gia,
-        t.Ghi_chu
+        t.Ghi_chu,
+        t.IP
     FROM Trang_thiet_bi t
     JOIN Loai_thiet_bi l ON t.Ma_loai_thiet_bi = l.Ma_loai_thiet_bi
     JOIN Phong_ban p ON t.Ma_phong_ban = p.Ma_phong_ban
@@ -73,7 +74,8 @@ namespace QuanLyThietBi.Helpers.db
                         Thoi_gian_them = rd.IsDBNull(15) ? (DateTime?)null : rd.GetDateTime(15),
 
                         Don_gia = rd.IsDBNull(16) ? (decimal?)null : rd.GetDecimal(16),
-                        Ghi_chu = rd.IsDBNull(17) ? "" : rd.GetString(17)
+                        Ghi_chu = rd.IsDBNull(17) ? "" : rd.GetString(17),
+                        Dia_chi_IP = rd.IsDBNull(18) ? "" : rd.GetString(18)
                     };
 
 
@@ -370,7 +372,10 @@ namespace QuanLyThietBi.Helpers.db
         JOIN Loai_thiet_bi l ON t.Ma_loai_thiet_bi = l.Ma_loai_thiet_bi
         JOIN Phong_ban p ON t.Ma_phong_ban = p.Ma_phong_ban
         JOIN Trang_thai_su_dung tt ON t.Ma_trang_thai = tt.Ma_trang_thai
-        ORDER BY t.Thoi_gian_them DESC";
+         ORDER BY 
+            p.Ten_phong_ban,
+            CASE WHEN t.IP IS NULL THEN 0 ELSE 1 END,
+            t.IP";
 
             using (SqlConnection conn = DBConnect.GetSQLConnector())
             {
@@ -396,5 +401,29 @@ namespace QuanLyThietBi.Helpers.db
             }
             return list;
         }
+
+        public bool UpdateDiaChiIP(Model.TrangThietBiDTOModel model)
+        {
+            string sql = @"
+            update Trang_thiet_bi 
+            Set 
+                IP = @IP
+            where Ma_trang_thiet_bi = @MaThietBi;
+            ";
+
+            using (SqlConnection conn = DBConnect.GetSQLConnector())
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@MaThietBi", model.MaThietBi);
+                cmd.Parameters.AddWithValue("@IP", model.DiaChiIP ?? (object)DBNull.Value);
+                if (conn.State != ConnectionState.Open) conn.Open();
+                int rows = cmd.ExecuteNonQuery();
+                if (rows > 0)
+                    return true;
+            }
+            return false;
+        }
     }
+
+
 }

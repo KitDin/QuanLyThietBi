@@ -34,5 +34,6 @@ namespace QuanLyThietBi.Model
 
         // ===== Khác =====
         public string Ghi_chu { get; set; }
+        public string Dia_chi_IP { get; set; }
     }
 }
