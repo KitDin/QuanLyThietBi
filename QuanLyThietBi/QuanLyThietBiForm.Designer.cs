@@ -115,7 +115,6 @@ namespace QuanLyThietBi
             dgvThietBi.RowHeadersWidth = 51;
             dgvThietBi.Size = new Size(1142, 456);
             dgvThietBi.TabIndex = 2;
-            dgvThietBi.CellFormatting += dgvThietBi_CellFormatting;
             dgvThietBi.ColumnHeaderMouseClick += dgvThietBi_ColumnHeaderMouseClick;
             // 
             // panel1
@@ -247,35 +246,27 @@ namespace QuanLyThietBi
 
             dgvThietBi.EnableHeadersVisualStyles = false;
 
-            // Header
             dgvThietBi.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 122, 204);
             dgvThietBi.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvThietBi.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             dgvThietBi.ColumnHeadersHeight = 50;
 
-            // Row
             dgvThietBi.DefaultCellStyle.Font = new Font("Segoe UI", 10);
             dgvThietBi.DefaultCellStyle.BackColor = Color.White;
             dgvThietBi.DefaultCellStyle.ForeColor = Color.Black;
             dgvThietBi.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
             dgvThietBi.DefaultCellStyle.SelectionForeColor = Color.Black;
 
-            // Xen kẽ màu dòng
             dgvThietBi.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 248, 250);
 
-            // Tự giãn cột
-            //dgvThietBi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvThietBi.ScrollBars = ScrollBars.Both;
             dgvThietBi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgvThietBi.AllowUserToResizeColumns = true;
 
-            // Không cho sửa trực tiếp
             dgvThietBi.ReadOnly = true;
 
-            // Tắt dòng trống cuối
             dgvThietBi.AllowUserToAddRows = false;
 
-            // Chọn nguyên dòng
             dgvThietBi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             dgvThietBi.RowTemplate.Height = 45;
@@ -418,7 +409,6 @@ namespace QuanLyThietBi
             });
 
 
-            // In your styleDataGridView() method, after adding all columns:
             foreach (DataGridViewColumn col in dgvThietBi.Columns)
             {
                 if (col is DataGridViewButtonColumn)
@@ -428,40 +418,12 @@ namespace QuanLyThietBi
             }
         }
 
-        void AddActionButtons()
+        private void dgvActions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            int btnWidth = 90;
-            int btnHeight = 32;
+            if (e.RowIndex < 0) return;
 
-            dgvThietBi.RowTemplate.Height = btnHeight + 6;
-            dgvThietBi.AllowUserToResizeRows = false;
-
-            AddButtonColumn("btnEdit", " ✏ ", btnWidth);
-            AddButtonColumn("btnTransfer", " ⇄ ", btnWidth);
-            AddButtonColumn("btnDelete", " 🗑 ", btnWidth);
-
-        }
-
-
-        void AddButtonColumn(string name, string text, int width)
-        {
-            DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-            btn.Name = name;
-            btn.HeaderText = "";
-            btn.Text = text;
-            btn.UseColumnTextForButtonValue = true;
-
-            btn.Width = width;
-            btn.MinimumWidth = width;
-            btn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            btn.FlatStyle = FlatStyle.Popup;
-
-            dgvThietBi.Columns.Add(btn);
-        }
-
-        private void dgvThietBi_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            string colName = dgvThietBi.Columns[e.ColumnIndex].Name;
+            DataGridView dgv = sender as DataGridView;
+            string colName = dgv.Columns[e.ColumnIndex].Name;
 
             if (colName == "btnEdit")
                 StyleButton(e, Color.White, Color.FromArgb(255, 193, 7));
@@ -478,7 +440,6 @@ namespace QuanLyThietBi
             e.CellStyle.SelectionBackColor = back;
             e.CellStyle.SelectionForeColor = Color.White;
             e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //e.CellStyle.Padding = new Padding(4);
         }
 
         private TableLayoutPanel tableLayoutPanel1;

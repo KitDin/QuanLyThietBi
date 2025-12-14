@@ -151,7 +151,7 @@ namespace QuanLyThietBi
         private bool ValidateForm()
         {
             if (!Helpers.Validate.ValidateTextBox(tbMaThietBi, "Mã thiết bị")) return false;
-
+            if (!Helpers.Validate.ValidateTextBox(tbTenThietBi, "Tên thiết bị")) return false;
             if (!Helpers.Validate.ValidateComboBox(cbPhongBan, "Phòng ban")) return false;
             if (!Helpers.Validate.ValidateComboBox(cbLoaiThietBi, "Loại thiết bị")) return false;
             if (!Helpers.Validate.ValidateComboBox(cbTrangThai, "Trạng thái")) return false;
@@ -277,6 +277,8 @@ namespace QuanLyThietBi
 
 
             model.MaThietBi = tbMaThietBi.Text.Trim();
+            model.TenTrangThietBi = tbTenThietBi.Text.Trim();
+
             model.DonViTinh = tbDonViTinh.Text.Trim();
 
             model.MaPhongBan = cbPhongBan.SelectedValue?.ToString();
@@ -339,6 +341,7 @@ namespace QuanLyThietBi
         public void FillData(TrangThietBiDTOModel ttb)
         {
             tbMaThietBi.Text = ttb.MaThietBi;
+            tbTenThietBi.Text = ttb.TenTrangThietBi;
             tbDonViTinh.Text = ttb.DonViTinh;
             cbPhongBan.SelectedValue = int.Parse(ttb.MaPhongBan);
             cbLoaiThietBi.SelectedValue = int.Parse(ttb.MaLoaiThietBi);

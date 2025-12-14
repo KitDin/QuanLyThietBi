@@ -92,7 +92,30 @@ namespace QuanLyThietBi.Helpers.db
             ttb.Model,
             ttb.Cau_hinh,
             ttb.Loai_ket_noi,
-            ttb.Thoi_gian_mua
+            ttb.Thoi_gian_mua,
+
+        ttb.Ma_trang_thiet_bi,
+        ttb.Ten_trang_thiet_bi,
+        ttb.Don_vi_tinh,
+
+        ltb.Ten_loai_thiet_bi,
+        pb.Ten_phong_ban,
+        tt.Ten_trang_thai,
+
+        ttb.So_seri,
+        ttb.Brand,
+        ttb.Model,
+        ttb.Cau_hinh,
+        ttb.Loai_ket_noi,
+
+        ttb.Thoi_gian_mua,
+        ttb.Thoi_gian_bao_tri,
+        ttb.Hang_bao_hanh,
+        ttb.Thoi_gian_dua_vao_su_dung,
+        ttb.Thoi_gian_them,
+
+        ttb.Don_gia,
+        ttb.Ghi_chu
         FROM Trang_thiet_bi ttb
         JOIN Loai_thiet_bi ltb ON ttb.Ma_loai_thiet_bi = ltb.Ma_loai_thiet_bi
         JOIN Phong_ban pb ON ttb.Ma_phong_ban = pb.Ma_phong_ban
@@ -101,6 +124,7 @@ namespace QuanLyThietBi.Helpers.db
         (
             @kw IS NULL
             OR ttb.Ma_trang_thiet_bi LIKE @kw
+            OR ttb.Ten_trang_thiet_bi LIKE @kw
             OR ttb.So_seri LIKE @kw
             OR ttb.Brand LIKE @kw
             OR ttb.Model LIKE @kw
@@ -131,6 +155,7 @@ namespace QuanLyThietBi.Helpers.db
                             list.Add(new Model.TrangThietBiModel
                             {
                                 Ma_trang_thiet_bi = rd["Ma_trang_thiet_bi"].ToString(),
+                                Ten_trang_thiet_bi = rd["Ten_trang_thiet_bi"].ToString(),
                                 Ten_loai_thiet_bi = rd["Ten_loai_thiet_bi"].ToString(),
                                 Ten_phong_ban = rd["Ten_phong_ban"].ToString(),
                                 Ten_trang_thai = rd["Ten_trang_thai"].ToString(),
@@ -139,9 +164,34 @@ namespace QuanLyThietBi.Helpers.db
                                 Model = rd["Model"].ToString(),
                                 Cau_hinh = rd["Cau_hinh"].ToString(),
                                 Loai_ket_noi = rd["Loai_ket_noi"].ToString(),
+                                Don_vi_tinh = rd["Don_vi_tinh"].ToString(),
+                                Ghi_chu = rd["Ghi_chu"].ToString(),
+
+                                // Các trường DateTime
                                 Thoi_gian_mua = rd["Thoi_gian_mua"] == DBNull.Value
                                     ? (DateTime?)null
-                                    : Convert.ToDateTime(rd["Thoi_gian_mua"])
+                                    : Convert.ToDateTime(rd["Thoi_gian_mua"]),
+
+                                Thoi_gian_bao_tri = rd["Thoi_gian_bao_tri"] == DBNull.Value
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(rd["Thoi_gian_bao_tri"]),
+
+                                Hang_bao_hanh = rd["Hang_bao_hanh"] == DBNull.Value
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(rd["Hang_bao_hanh"]),
+
+                                Thoi_gian_dua_vao_su_dung = rd["Thoi_gian_dua_vao_su_dung"] == DBNull.Value
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(rd["Thoi_gian_dua_vao_su_dung"]),
+
+                                Thoi_gian_them = rd["Thoi_gian_them"] == DBNull.Value
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(rd["Thoi_gian_them"]),
+
+                                // Đơn giá
+                                Don_gia = rd["Don_gia"] == DBNull.Value
+                                    ? (decimal?)null
+                                    : Convert.ToDecimal(rd["Don_gia"])
                             });
                         }
                     }

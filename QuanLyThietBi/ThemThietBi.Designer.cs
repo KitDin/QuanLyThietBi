@@ -32,12 +32,11 @@
             btnHuy = new Button();
             btnThem = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
+            tbTenThietBi = new TextBox();
             panelIP = new FlowLayoutPanel();
             cbIP = new CheckBox();
             notAss = new Label();
             tbIP = new TextBox();
-            tbDonViTinh = new TextBox();
-            label5 = new Label();
             cbTrangThai = new ComboBox();
             tbMaThietBi = new TextBox();
             cbPhongBan = new ComboBox();
@@ -78,7 +77,14 @@
             flowLayoutPanel6 = new FlowLayoutPanel();
             label3 = new Label();
             label23 = new Label();
+            tbDonViTinh = new TextBox();
             panel1 = new Panel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            label2 = new Label();
+            label4 = new Label();
+            flowLayoutPanel7 = new FlowLayoutPanel();
+            label24 = new Label();
+            label25 = new Label();
             panel5.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panelIP.SuspendLayout();
@@ -88,6 +94,8 @@
             flowLayoutPanel5.SuspendLayout();
             flowLayoutPanel6.SuspendLayout();
             panel1.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            flowLayoutPanel7.SuspendLayout();
             SuspendLayout();
             // 
             // panel5
@@ -136,9 +144,10 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 31.7241383F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 21.83908F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.7259617F));
+            tableLayoutPanel1.Controls.Add(tbTenThietBi, 1, 2);
             tableLayoutPanel1.Controls.Add(panelIP, 0, 9);
-            tableLayoutPanel1.Controls.Add(tbDonViTinh, 1, 2);
-            tableLayoutPanel1.Controls.Add(label5, 0, 2);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel7, 2, 2);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 2);
             tableLayoutPanel1.Controls.Add(cbTrangThai, 1, 1);
             tableLayoutPanel1.Controls.Add(tbMaThietBi, 1, 0);
             tableLayoutPanel1.Controls.Add(cbPhongBan, 3, 1);
@@ -169,6 +178,7 @@
             tableLayoutPanel1.Controls.Add(flowLayoutPanel4, 2, 0);
             tableLayoutPanel1.Controls.Add(flowLayoutPanel5, 0, 1);
             tableLayoutPanel1.Controls.Add(flowLayoutPanel6, 2, 1);
+            tableLayoutPanel1.Controls.Add(tbDonViTinh, 3, 2);
             tableLayoutPanel1.Location = new Point(12, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 13;
@@ -186,8 +196,17 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(834, 526);
+            tableLayoutPanel1.Size = new Size(846, 526);
             tableLayoutPanel1.TabIndex = 0;
+            // 
+            // tbTenThietBi
+            // 
+            tbTenThietBi.Anchor = AnchorStyles.Left;
+            tbTenThietBi.Font = new Font("Segoe UI", 10F);
+            tbTenThietBi.Location = new Point(151, 85);
+            tbTenThietBi.Name = "tbTenThietBi";
+            tbTenThietBi.Size = new Size(213, 30);
+            tbTenThietBi.TabIndex = 45;
             // 
             // panelIP
             // 
@@ -198,7 +217,7 @@
             panelIP.Dock = DockStyle.Fill;
             panelIP.Location = new Point(3, 363);
             panelIP.Name = "panelIP";
-            panelIP.Size = new Size(828, 34);
+            panelIP.Size = new Size(840, 34);
             panelIP.TabIndex = 1;
             // 
             // cbIP
@@ -236,32 +255,13 @@
             tbIP.TabIndex = 33;
             tbIP.Visible = false;
             // 
-            // tbDonViTinh
-            // 
-            tbDonViTinh.Anchor = AnchorStyles.Left;
-            tbDonViTinh.Font = new Font("Segoe UI", 10F);
-            tbDonViTinh.Location = new Point(149, 85);
-            tbDonViTinh.Name = "tbDonViTinh";
-            tbDonViTinh.Size = new Size(113, 30);
-            tbDonViTinh.TabIndex = 11;
-            // 
-            // label5
-            // 
-            label5.Anchor = AnchorStyles.Left;
-            label5.AutoSize = true;
-            label5.Location = new Point(3, 90);
-            label5.Name = "label5";
-            label5.Size = new Size(81, 20);
-            label5.TabIndex = 10;
-            label5.Text = "Đơn vị tính";
-            // 
             // cbTrangThai
             // 
             cbTrangThai.Anchor = AnchorStyles.Left;
             cbTrangThai.Font = new Font("Segoe UI", 10F);
             cbTrangThai.FormattingEnabled = true;
             cbTrangThai.Items.AddRange(new object[] { "Trong khoa", "Đang sử dụng", "Đang sửa", "Đã hư" });
-            cbTrangThai.Location = new Point(149, 44);
+            cbTrangThai.Location = new Point(151, 44);
             cbTrangThai.Name = "cbTrangThai";
             cbTrangThai.Size = new Size(213, 31);
             cbTrangThai.TabIndex = 8;
@@ -270,7 +270,7 @@
             // 
             tbMaThietBi.Anchor = AnchorStyles.Left;
             tbMaThietBi.Font = new Font("Segoe UI", 10F);
-            tbMaThietBi.Location = new Point(149, 5);
+            tbMaThietBi.Location = new Point(151, 5);
             tbMaThietBi.Name = "tbMaThietBi";
             tbMaThietBi.PlaceholderText = "Mã sinh từ loại thiết bị!";
             tbMaThietBi.Size = new Size(213, 30);
@@ -283,7 +283,7 @@
             cbPhongBan.Font = new Font("Segoe UI", 10F);
             cbPhongBan.FormattingEnabled = true;
             cbPhongBan.Items.AddRange(new object[] { "Phong kinh doanh", "Phòng IT", "Phòng A", "Cấp cứu" });
-            cbPhongBan.Location = new Point(596, 44);
+            cbPhongBan.Location = new Point(604, 44);
             cbPhongBan.Name = "cbPhongBan";
             cbPhongBan.Size = new Size(216, 31);
             cbPhongBan.TabIndex = 7;
@@ -294,7 +294,7 @@
             cbLoaiThietBi.Font = new Font("Segoe UI", 10F);
             cbLoaiThietBi.FormattingEnabled = true;
             cbLoaiThietBi.Items.AddRange(new object[] { "Máy tính", "Máy in ", "Máy A", "May B" });
-            cbLoaiThietBi.Location = new Point(596, 4);
+            cbLoaiThietBi.Location = new Point(604, 4);
             cbLoaiThietBi.Name = "cbLoaiThietBi";
             cbLoaiThietBi.Size = new Size(216, 31);
             cbLoaiThietBi.TabIndex = 6;
@@ -315,7 +315,7 @@
             // 
             tbSeri.Anchor = AnchorStyles.Left;
             tbSeri.Font = new Font("Segoe UI", 10F);
-            tbSeri.Location = new Point(149, 125);
+            tbSeri.Location = new Point(151, 125);
             tbSeri.Name = "tbSeri";
             tbSeri.Size = new Size(113, 30);
             tbSeri.TabIndex = 13;
@@ -324,7 +324,7 @@
             // 
             tbModel.Anchor = AnchorStyles.Left;
             tbModel.Font = new Font("Segoe UI", 10F);
-            tbModel.Location = new Point(596, 125);
+            tbModel.Location = new Point(604, 125);
             tbModel.Name = "tbModel";
             tbModel.Size = new Size(142, 30);
             tbModel.TabIndex = 15;
@@ -344,7 +344,7 @@
             tbHang.Anchor = AnchorStyles.Left;
             tableLayoutPanel1.SetColumnSpan(tbHang, 2);
             tbHang.Font = new Font("Segoe UI", 10F);
-            tbHang.Location = new Point(149, 165);
+            tbHang.Location = new Point(151, 165);
             tbHang.Name = "tbHang";
             tbHang.Size = new Size(384, 30);
             tbHang.TabIndex = 17;
@@ -364,7 +364,7 @@
             tbCauHinh.Anchor = AnchorStyles.Left;
             tableLayoutPanel1.SetColumnSpan(tbCauHinh, 3);
             tbCauHinh.Font = new Font("Segoe UI", 10F);
-            tbCauHinh.Location = new Point(149, 205);
+            tbCauHinh.Location = new Point(151, 205);
             tbCauHinh.Name = "tbCauHinh";
             tbCauHinh.Size = new Size(613, 30);
             tbCauHinh.TabIndex = 19;
@@ -383,7 +383,7 @@
             // 
             tbLoaiKetNoi.Anchor = AnchorStyles.Left;
             tbLoaiKetNoi.Font = new Font("Segoe UI", 10F);
-            tbLoaiKetNoi.Location = new Point(149, 245);
+            tbLoaiKetNoi.Location = new Point(151, 245);
             tbLoaiKetNoi.Name = "tbLoaiKetNoi";
             tbLoaiKetNoi.Size = new Size(113, 30);
             tbLoaiKetNoi.TabIndex = 21;
@@ -412,7 +412,7 @@
             // 
             label13.Anchor = AnchorStyles.Left;
             label13.AutoSize = true;
-            label13.Location = new Point(414, 290);
+            label13.Location = new Point(419, 290);
             label13.Name = "label13";
             label13.Size = new Size(128, 20);
             label13.TabIndex = 24;
@@ -422,7 +422,7 @@
             // 
             label14.Anchor = AnchorStyles.Left;
             label14.AutoSize = true;
-            label14.Location = new Point(414, 330);
+            label14.Location = new Point(419, 330);
             label14.Name = "label14";
             label14.Size = new Size(102, 20);
             label14.TabIndex = 25;
@@ -433,18 +433,18 @@
             dateSuDung.Anchor = AnchorStyles.Left;
             dateSuDung.Font = new Font("Segoe UI", 10F);
             dateSuDung.Format = DateTimePickerFormat.Custom;
-            dateSuDung.Location = new Point(596, 285);
+            dateSuDung.Location = new Point(604, 285);
             dateSuDung.Name = "dateSuDung";
             dateSuDung.Size = new Size(211, 30);
             dateSuDung.TabIndex = 28;
-            dateSuDung.Value = new DateTime(2025, 12, 11, 0, 0, 0, 0);
+            dateSuDung.Value = new DateTime(2025, 12, 14, 14, 14, 33, 0);
             // 
             // dateBaoHanh
             // 
             dateBaoHanh.Anchor = AnchorStyles.Left;
             dateBaoHanh.Font = new Font("Segoe UI", 10F);
             dateBaoHanh.Format = DateTimePickerFormat.Custom;
-            dateBaoHanh.Location = new Point(596, 325);
+            dateBaoHanh.Location = new Point(604, 325);
             dateBaoHanh.Name = "dateBaoHanh";
             dateBaoHanh.Size = new Size(211, 30);
             dateBaoHanh.TabIndex = 29;
@@ -454,7 +454,7 @@
             dateBaoTri.Anchor = AnchorStyles.Left;
             dateBaoTri.Font = new Font("Segoe UI", 10F);
             dateBaoTri.Format = DateTimePickerFormat.Custom;
-            dateBaoTri.Location = new Point(149, 325);
+            dateBaoTri.Location = new Point(151, 325);
             dateBaoTri.Name = "dateBaoTri";
             dateBaoTri.Size = new Size(213, 30);
             dateBaoTri.TabIndex = 30;
@@ -464,7 +464,7 @@
             dateMua.Anchor = AnchorStyles.Left;
             dateMua.Font = new Font("Segoe UI", 10F);
             dateMua.Format = DateTimePickerFormat.Custom;
-            dateMua.Location = new Point(149, 285);
+            dateMua.Location = new Point(151, 285);
             dateMua.Name = "dateMua";
             dateMua.Size = new Size(213, 30);
             dateMua.TabIndex = 31;
@@ -473,7 +473,7 @@
             // 
             label7.Anchor = AnchorStyles.Left;
             label7.AutoSize = true;
-            label7.Location = new Point(414, 130);
+            label7.Location = new Point(419, 130);
             label7.Name = "label7";
             label7.Size = new Size(52, 20);
             label7.TabIndex = 14;
@@ -495,7 +495,7 @@
             tableLayoutPanel1.SetColumnSpan(flowLayoutPanel2, 2);
             flowLayoutPanel2.Controls.Add(tbGia);
             flowLayoutPanel2.Controls.Add(label16);
-            flowLayoutPanel2.Location = new Point(149, 403);
+            flowLayoutPanel2.Location = new Point(151, 403);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(362, 34);
             flowLayoutPanel2.TabIndex = 35;
@@ -533,7 +533,7 @@
             // tbGhiChu
             // 
             tableLayoutPanel1.SetColumnSpan(tbGhiChu, 3);
-            tbGhiChu.Location = new Point(149, 443);
+            tbGhiChu.Location = new Point(151, 443);
             tbGhiChu.Multiline = true;
             tbGhiChu.Name = "tbGhiChu";
             tableLayoutPanel1.SetRowSpan(tbGhiChu, 2);
@@ -578,7 +578,7 @@
             flowLayoutPanel4.AutoSize = true;
             flowLayoutPanel4.Controls.Add(label18);
             flowLayoutPanel4.Controls.Add(label21);
-            flowLayoutPanel4.Location = new Point(414, 10);
+            flowLayoutPanel4.Location = new Point(419, 10);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(167, 20);
             flowLayoutPanel4.TabIndex = 41;
@@ -642,9 +642,9 @@
             flowLayoutPanel6.AutoSize = true;
             flowLayoutPanel6.Controls.Add(label3);
             flowLayoutPanel6.Controls.Add(label23);
-            flowLayoutPanel6.Location = new Point(414, 43);
+            flowLayoutPanel6.Location = new Point(419, 50);
             flowLayoutPanel6.Name = "flowLayoutPanel6";
-            flowLayoutPanel6.Size = new Size(143, 34);
+            flowLayoutPanel6.Size = new Size(177, 20);
             flowLayoutPanel6.TabIndex = 43;
             // 
             // label3
@@ -662,11 +662,20 @@
             label23.AutoSize = true;
             label23.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label23.ForeColor = Color.Red;
-            label23.Location = new Point(3, 20);
+            label23.Location = new Point(146, 0);
             label23.Name = "label23";
             label23.Size = new Size(28, 20);
             label23.TabIndex = 40;
             label23.Text = "(*)";
+            // 
+            // tbDonViTinh
+            // 
+            tbDonViTinh.Anchor = AnchorStyles.Left;
+            tbDonViTinh.Font = new Font("Segoe UI", 10F);
+            tbDonViTinh.Location = new Point(604, 85);
+            tbDonViTinh.Name = "tbDonViTinh";
+            tbDonViTinh.Size = new Size(113, 30);
+            tbDonViTinh.TabIndex = 11;
             // 
             // panel1
             // 
@@ -676,6 +685,70 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(858, 579);
             panel1.TabIndex = 2;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Anchor = AnchorStyles.Left;
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.Controls.Add(label2);
+            flowLayoutPanel1.Controls.Add(label4);
+            flowLayoutPanel1.Location = new Point(3, 90);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(123, 20);
+            flowLayoutPanel1.TabIndex = 43;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Left;
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(83, 20);
+            label2.TabIndex = 39;
+            label2.Text = "Tên thiết bị";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Red;
+            label4.Location = new Point(92, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(28, 20);
+            label4.TabIndex = 40;
+            label4.Text = "(*)";
+            // 
+            // flowLayoutPanel7
+            // 
+            flowLayoutPanel7.Anchor = AnchorStyles.Left;
+            flowLayoutPanel7.AutoSize = true;
+            flowLayoutPanel7.Controls.Add(label24);
+            flowLayoutPanel7.Controls.Add(label25);
+            flowLayoutPanel7.Location = new Point(419, 90);
+            flowLayoutPanel7.Name = "flowLayoutPanel7";
+            flowLayoutPanel7.Size = new Size(121, 20);
+            flowLayoutPanel7.TabIndex = 44;
+            // 
+            // label24
+            // 
+            label24.Anchor = AnchorStyles.Left;
+            label24.AutoSize = true;
+            label24.Location = new Point(3, 0);
+            label24.Name = "label24";
+            label24.Size = new Size(81, 20);
+            label24.TabIndex = 39;
+            label24.Text = "Đơn vị tính";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label25.ForeColor = Color.Red;
+            label25.Location = new Point(90, 0);
+            label25.Name = "label25";
+            label25.Size = new Size(28, 20);
+            label25.TabIndex = 40;
+            label25.Text = "(*)";
             // 
             // ThemThietBi
             // 
@@ -704,6 +777,10 @@
             flowLayoutPanel6.ResumeLayout(false);
             flowLayoutPanel6.PerformLayout();
             panel1.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
+            flowLayoutPanel7.ResumeLayout(false);
+            flowLayoutPanel7.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -712,7 +789,6 @@
         private Panel panel5;
         private TableLayoutPanel tableLayoutPanel1;
         private TextBox tbDonViTinh;
-        private Label label5;
         private ComboBox cbTrangThai;
         private TextBox tbMaThietBi;
         private ComboBox cbPhongBan;
@@ -760,5 +836,12 @@
         private Label label1;
         private Label label22;
         private Label notAss;
+        private TextBox tbTenThietBi;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Label label2;
+        private Label label4;
+        private FlowLayoutPanel flowLayoutPanel7;
+        private Label label24;
+        private Label label25;
     }
 }

@@ -18,25 +18,16 @@ namespace QuanLyThietBi
         ToolTip tip = new ToolTip();
         Helpers.db.TrangThietBi bus = new Helpers.db.TrangThietBi();
         Helpers.db.LookupDB lookupDB = new Helpers.db.LookupDB();
+        private DataGridView dgvActions;
+        private Panel containerPanel;
         public QuanLyThietBiForm()
         {
             InitializeComponent();
-            dgvThietBi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvThietBi.RowHeadersVisible = false;
-            dgvThietBi.AllowUserToAddRows = false;
-            dgvThietBi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            styleDataGridView();
+
             loadDataPhongBan();
             loadDataLoaiThietBi();
             loadDataTrangThai();
-            AddActionButtons();
-            dgvThietBi.Columns["btnEdit"].DisplayIndex = 0;
-            dgvThietBi.Columns["btnDelete"].DisplayIndex = 1;
-            dgvThietBi.Columns["btnTransfer"].DisplayIndex = 2;
-
-            dgvThietBi.Columns["btnEdit"].Frozen = true;
-            dgvThietBi.Columns["btnDelete"].Frozen = true;
-            dgvThietBi.Columns["btnTransfer"].Frozen = true;
+            CreateSplitDataGridView();
 
 
             ApplyPermission();
@@ -44,6 +35,7 @@ namespace QuanLyThietBi
             searchTimer.Interval = 800;
             searchTimer.Tick += SearchTimer_Tick;
             dgvThietBi.CellClick += dgvThietBi_CellClick;
+            dgvActions.CellClick += dgvThietBi_CellClick;
             cbPhongBan.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             cbLoaiThietBi.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             cbTrangThai.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
@@ -51,58 +43,122 @@ namespace QuanLyThietBi
 
         }
 
+        private void CreateSplitDataGridView()
+        {
+            dgvThietBi.Visible = false;
+
+            containerPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                Location = dgvThietBi.Location,
+                Size = dgvThietBi.Size
+            };
+            panel1.Controls.Add(containerPanel);
+            containerPanel.BringToFront();
+
+            dgvThietBi = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                RowHeadersVisible = false,
+                AllowUserToAddRows = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                ScrollBars = ScrollBars.Horizontal,
+                ReadOnly = true
+            };
+
+            dgvActions = new DataGridView
+            {
+                Dock = DockStyle.Right,
+                Width = 280,
+                RowHeadersVisible = false,
+                AllowUserToAddRows = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                ScrollBars = ScrollBars.None,
+                ReadOnly = true,
+                AllowUserToResizeColumns = false,
+                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            };
+
+            containerPanel.Controls.Add(dgvThietBi);
+            containerPanel.Controls.Add(dgvActions);
+
+            // XÓA dòng này: styleDataGridView();
+            styleActionsGridView();
+
+            styleDataGridView(); // CHỈ GỌI 1 LẦN - tạo columns cho dgvThietBi
+            AddActionButtons(); // Tạo columns cho dgvActions
+
+            // THÊM EVENT HANDLER CHO dgvThietBi MỚI
+            dgvThietBi.ColumnHeaderMouseClick += dgvThietBi_ColumnHeaderMouseClick;
+
+            dgvThietBi.Scroll += (s, e) => SyncScroll();
+            dgvActions.Scroll += (s, e) => SyncScroll();
+        }
+
+        private void AddActionButtons()
+        {
+            dgvActions.AutoGenerateColumns = false;
+            dgvActions.Columns.Clear();
+
+            int btnWidth = 90;
+
+            AddButtonColumn(dgvActions, "btnEdit", " ✏ ", btnWidth);
+            AddButtonColumn(dgvActions, "btnTransfer", " ⇄ ", btnWidth);
+            AddButtonColumn(dgvActions, "btnDelete", " 🗑 ", btnWidth);
+        }
+
+        void AddButtonColumn(DataGridView dgv, string name, string text, int width)
+        {
+            DataGridViewButtonColumn btn = new DataGridViewButtonColumn
+            {
+                Name = name,
+                HeaderText = "",
+                Text = text,
+                UseColumnTextForButtonValue = true,
+                Width = width,
+                MinimumWidth = width,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                FlatStyle = FlatStyle.Popup
+            };
+            dgv.Columns.Add(btn);
+        }
+
+        private void styleActionsGridView()
+        {
+            dgvActions.BorderStyle = BorderStyle.None;
+            dgvActions.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvActions.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvActions.BackgroundColor = Color.White;
+            dgvActions.EnableHeadersVisualStyles = false;
+
+            dgvActions.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 122, 204);
+            dgvActions.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvActions.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvActions.ColumnHeadersHeight = 50;
+
+            dgvActions.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dgvActions.DefaultCellStyle.BackColor = Color.White;
+            dgvActions.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
+            dgvActions.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 248, 250);
+
+            dgvActions.RowTemplate.Height = 45;
+            dgvActions.CellFormatting += dgvActions_CellFormatting;
+        }
+
+        private void SyncScroll()
+        {
+            if (dgvThietBi.FirstDisplayedScrollingRowIndex != dgvActions.FirstDisplayedScrollingRowIndex)
+            {
+                dgvActions.FirstDisplayedScrollingRowIndex = dgvThietBi.FirstDisplayedScrollingRowIndex;
+            }
+        }
+
 
         private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyFilter();
         }
-
-
-        private void dgvThietBi_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0) return;
-
-            if (!UserSession.IsAdmin)
-            {
-                MessageBox.Show("Bạn không có quyền thực hiện chức năng này",
-                    "Không đủ quyền",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                return;
-            }
-
-
-            string colName = dgvThietBi.Columns[e.ColumnIndex].Name;
-
-            string maThietBi = dgvThietBi.Rows[e.RowIndex].Cells["Ma_trang_thiet_bi"].Value.ToString();
-
-            if (colName == "btnEdit")
-            {
-                ThemThietBi ttb = new ThemThietBi(maThietBi);
-                ttb.FormClosed += (s, args) => LoadData();
-                ttb.ShowDialog();
-            }
-            else if (colName == "btnTransfer")
-            {
-                MessageBox.Show("Tính năng đăng phát triển: " + maThietBi);
-            }
-            else if (colName == "btnDelete")
-            {
-                if (MessageBox.Show("Bạn chắc chắn xóa thiết bị này?",
-                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    bool del = bus.Delete(maThietBi);
-
-                    if (del)
-                    {
-                        MessageBox.Show("Xóa thiết bị thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadData();
-                    }
-                }
-            }
-        }
-
-
 
         private void QuanLyThietBiForm_Load(object sender, EventArgs e)
         {
@@ -119,7 +175,12 @@ namespace QuanLyThietBi
         private void LoadData()
         {
             var data = bus.GetAll();
-            dgvThietBi.DataSource = new BindingList<Model.TrangThietBiModel>(data);
+            var bindingList = new BindingList<Model.TrangThietBiModel>(data);
+
+            dgvThietBi.DataSource = bindingList;
+            dgvActions.DataSource = bindingList;
+
+            dgvActions.RowTemplate.Height = dgvThietBi.RowTemplate.Height;
         }
 
 
@@ -197,17 +258,6 @@ namespace QuanLyThietBi
             cbTrangThai.AutoCompleteCustomSource = data;
         }
 
-        private void ApplyFilter()
-        {
-            int pb = cbPhongBan.SelectedIndex == 0 ? 0 : (int)cbPhongBan.SelectedValue;
-            int loai = cbLoaiThietBi.SelectedIndex == 0 ? 0 : (int)cbLoaiThietBi.SelectedValue;
-            int tt = cbTrangThai.SelectedIndex == 0 ? 0 : (int)cbTrangThai.SelectedValue;
-
-            string keyword = textSearch.Text.Trim();
-
-            var data = lookupDB.LookupThietBi(keyword, pb, loai, tt);
-            dgvThietBi.DataSource = new BindingList<Model.TrangThietBiModel>(data);
-        }
 
         private void textSearch_TextChanged(object sender, EventArgs e)
         {
@@ -224,23 +274,81 @@ namespace QuanLyThietBi
         }
 
 
-        private void ApplyPermission()
+        private void ApplyFilter()
         {
-            // Nhân viên
+            int pb = cbPhongBan.SelectedIndex == 0 ? 0 : (int)cbPhongBan.SelectedValue;
+            int loai = cbLoaiThietBi.SelectedIndex == 0 ? 0 : (int)cbLoaiThietBi.SelectedValue;
+            int tt = cbTrangThai.SelectedIndex == 0 ? 0 : (int)cbTrangThai.SelectedValue;
+
+            string keyword = textSearch.Text.Trim();
+
+            var data = lookupDB.LookupThietBi(keyword, pb, loai, tt);
+            var bindingList = new BindingList<Model.TrangThietBiModel>(data);
+
+            dgvThietBi.DataSource = bindingList;
+            dgvActions.DataSource = bindingList;
+
+            dgvActions.RowTemplate.Height = dgvThietBi.RowTemplate.Height;
+        }
+
+        private void dgvThietBi_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
             if (!UserSession.IsAdmin)
             {
-                // Ẩn nút thêm
+                MessageBox.Show("Bạn không có quyền thực hiện chức năng này",
+                    "Không đủ quyền",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridView clickedGrid = sender as DataGridView;
+            string colName = clickedGrid.Columns[e.ColumnIndex].Name;
+
+            string maThietBi = dgvThietBi.Rows[e.RowIndex].Cells["Ma_trang_thiet_bi"].Value.ToString();
+
+            if (colName == "btnEdit")
+            {
+                ThemThietBi ttb = new ThemThietBi(maThietBi);
+                ttb.FormClosed += (s, args) => LoadData();
+                ttb.ShowDialog();
+            }
+            else if (colName == "btnTransfer")
+            {
+                MessageBox.Show("Tính năng đăng phát triển: " + maThietBi);
+            }
+            else if (colName == "btnDelete")
+            {
+                if (MessageBox.Show("Bạn chắc chắn xóa thiết bị này?",
+                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    bool del = bus.Delete(maThietBi);
+
+                    if (del)
+                    {
+                        MessageBox.Show("Xóa thiết bị thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                    }
+                }
+            }
+        }
+
+        private void ApplyPermission()
+        {
+            if (!UserSession.IsAdmin)
+            {
                 btnAdd.Visible = false;
 
-                // Ẩn các cột hành động
-                if (dgvThietBi.Columns.Contains("btnEdit"))
-                    dgvThietBi.Columns["btnEdit"].Visible = false;
+                if (dgvActions.Columns.Contains("btnEdit"))
+                    dgvActions.Columns["btnEdit"].Visible = false;
 
-                if (dgvThietBi.Columns.Contains("btnDelete"))
-                    dgvThietBi.Columns["btnDelete"].Visible = false;
+                if (dgvActions.Columns.Contains("btnDelete"))
+                    dgvActions.Columns["btnDelete"].Visible = false;
 
-                if (dgvThietBi.Columns.Contains("btnTransfer"))
-                    dgvThietBi.Columns["btnTransfer"].Visible = false;
+                if (dgvActions.Columns.Contains("btnTransfer"))
+                    dgvActions.Columns["btnTransfer"].Visible = false;
             }
         }
 
