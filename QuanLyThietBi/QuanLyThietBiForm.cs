@@ -30,6 +30,15 @@ namespace QuanLyThietBi
             loadDataLoaiThietBi();
             loadDataTrangThai();
             AddActionButtons();
+            dgvThietBi.Columns["btnEdit"].DisplayIndex = 0;
+            dgvThietBi.Columns["btnDelete"].DisplayIndex = 1;
+            dgvThietBi.Columns["btnTransfer"].DisplayIndex = 2;
+
+            dgvThietBi.Columns["btnEdit"].Frozen = true;
+            dgvThietBi.Columns["btnDelete"].Frozen = true;
+            dgvThietBi.Columns["btnTransfer"].Frozen = true;
+
+
             ApplyPermission();
             searchTimer = new System.Windows.Forms.Timer();
             searchTimer.Interval = 800;

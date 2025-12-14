@@ -15,54 +15,75 @@ namespace QuanLyThietBi.Helpers.db
             List<TrangThietBiModel> list = new List<TrangThietBiModel>();
 
             string sql = @"
-        SELECT 
-            t.Ma_trang_thiet_bi,
-            l.Ten_loai_thiet_bi,
-            p.Ten_phong_ban,
-            tt.Ten_trang_thai,
-            t.So_seri,
-            t.Brand,
-            t.Model,
-            t.Cau_hinh,
-            t.Loai_ket_noi,
-            t.Thoi_gian_mua,
-            t.Ten_trang_thiet_bi
-        FROM Trang_thiet_bi t
-        JOIN Loai_thiet_bi l ON t.Ma_loai_thiet_bi = l.Ma_loai_thiet_bi
-        JOIN Phong_ban p ON t.Ma_phong_ban = p.Ma_phong_ban
-        JOIN Trang_thai_su_dung tt ON t.Ma_trang_thai = tt.Ma_trang_thai
-        ORDER BY t.Thoi_gian_them DESC";
+    SELECT 
+        t.Ma_trang_thiet_bi,
+        t.Ten_trang_thiet_bi,
+        t.Don_vi_tinh,
+
+        l.Ten_loai_thiet_bi,
+        p.Ten_phong_ban,
+        tt.Ten_trang_thai,
+
+        t.So_seri,
+        t.Brand,
+        t.Model,
+        t.Cau_hinh,
+        t.Loai_ket_noi,
+
+        t.Thoi_gian_mua,
+        t.Thoi_gian_bao_tri,
+        t.Hang_bao_hanh,
+        t.Thoi_gian_dua_vao_su_dung,
+        t.Thoi_gian_them,
+
+        t.Don_gia,
+        t.Ghi_chu
+    FROM Trang_thiet_bi t
+    JOIN Loai_thiet_bi l ON t.Ma_loai_thiet_bi = l.Ma_loai_thiet_bi
+    JOIN Phong_ban p ON t.Ma_phong_ban = p.Ma_phong_ban
+    JOIN Trang_thai_su_dung tt ON t.Ma_trang_thai = tt.Ma_trang_thai
+    ORDER BY t.Thoi_gian_them DESC";
 
             using (SqlConnection conn = DBConnect.GetSQLConnector())
             using (SqlCommand cmd = new SqlCommand(sql, conn))
+            using (SqlDataReader rd = cmd.ExecuteReader())
             {
-                using (SqlDataReader rd = cmd.ExecuteReader())
+                while (rd.Read())
                 {
-                    while (rd.Read())
+                    TrangThietBiModel tb = new TrangThietBiModel
                     {
-                        TrangThietBiModel tb = new TrangThietBiModel
-                        {
-                            Ma_trang_thiet_bi = rd.GetString(0),
-                            Ten_loai_thiet_bi = rd.GetString(1),
-                            Ten_phong_ban = rd.GetString(2),
-                            Ten_trang_thai = rd.GetString(3),
+                        Ma_trang_thiet_bi = rd.IsDBNull(0) ? "" : rd.GetString(0),
+                        Ten_trang_thiet_bi = rd.IsDBNull(1) ? "" : rd.GetString(1),
+                        Don_vi_tinh = rd.IsDBNull(2) ? "" : rd.GetString(2),
 
-                            So_seri = rd.IsDBNull(4) ? "" : rd.GetString(4),
-                            Brand = rd.IsDBNull(5) ? "" : rd.GetString(5),
-                            Model = rd.IsDBNull(6) ? "" : rd.GetString(6),
-                            Cau_hinh = rd.IsDBNull(7) ? "" : rd.GetString(7),
-                            Loai_ket_noi = rd.IsDBNull(8) ? "" : rd.GetString(8),
-                            Thoi_gian_mua = rd.IsDBNull(9) ? (DateTime?)null : rd.GetDateTime(9),
-                            Ten_trang_thiet_bi = rd.IsDBNull(10) ? "" : rd.GetString(10)
-                        };
+                        Ten_loai_thiet_bi = rd.IsDBNull(3) ? "" : rd.GetString(3),
+                        Ten_phong_ban = rd.IsDBNull(4) ? "" : rd.GetString(4),
+                        Ten_trang_thai = rd.IsDBNull(5) ? "" : rd.GetString(5),
 
-                        list.Add(tb);
-                    }
+                        So_seri = rd.IsDBNull(6) ? "" : rd.GetString(6),
+                        Brand = rd.IsDBNull(7) ? "" : rd.GetString(7),
+                        Model = rd.IsDBNull(8) ? "" : rd.GetString(8),
+                        Cau_hinh = rd.IsDBNull(9) ? "" : rd.GetString(9),
+                        Loai_ket_noi = rd.IsDBNull(10) ? "" : rd.GetString(10),
+
+                        Thoi_gian_mua = rd.IsDBNull(11) ? (DateTime?)null : rd.GetDateTime(11),
+                        Thoi_gian_bao_tri = rd.IsDBNull(12) ? (DateTime?)null : rd.GetDateTime(12),
+                        Hang_bao_hanh = rd.IsDBNull(13) ? (DateTime?)null : rd.GetDateTime(13),
+                        Thoi_gian_dua_vao_su_dung = rd.IsDBNull(14) ? (DateTime?)null : rd.GetDateTime(14),
+                        Thoi_gian_them = rd.IsDBNull(15) ? (DateTime?)null : rd.GetDateTime(15),
+
+                        Don_gia = rd.IsDBNull(16) ? (decimal?)null : rd.GetDecimal(16),
+                        Ghi_chu = rd.IsDBNull(17) ? "" : rd.GetString(17)
+                    };
+
+
+                    list.Add(tb);
                 }
             }
 
             return list;
         }
+
         public string GenerateNextMaThietBi(string tenLoai)
         {
             if (string.IsNullOrWhiteSpace(tenLoai)) return "";

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Data;
+using System.Windows.Forms;
 
 namespace QuanLyThietBi
 {
@@ -365,6 +366,57 @@ namespace QuanLyThietBi
                 HeaderText = "Ngày mua",
                 DefaultCellStyle = { Format = "dd/MM/yyyy" }
             });
+            dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Thoi_gian_bao_tri",
+                DataPropertyName = "Thoi_gian_bao_tri",
+                HeaderText = "Ngày bảo trì",
+                DefaultCellStyle = { Format = "dd/MM/yyyy" }
+            });
+
+            dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Hang_bao_hanh",
+                DataPropertyName = "Hang_bao_hanh",
+                HeaderText = "Hạn bảo hành",
+                DefaultCellStyle = { Format = "dd/MM/yyyy" }
+            });
+
+            dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Thoi_gian_dua_vao_su_dung",
+                DataPropertyName = "Thoi_gian_dua_vao_su_dung",
+                HeaderText = "Ngày sử dụng",
+                DefaultCellStyle = { Format = "dd/MM/yyyy" }
+            });
+
+            dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Don_gia",
+                DataPropertyName = "Don_gia",
+                HeaderText = "Đơn giá",
+                DefaultCellStyle =
+                     {
+                      Format = "N0",
+                     Alignment = DataGridViewContentAlignment.MiddleRight
+                      }
+            });
+
+            dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Don_vi_tinh",
+                DataPropertyName = "Don_vi_tinh",
+                HeaderText = "ĐVT"
+            });
+
+            dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Ghi_chu",
+                DataPropertyName = "Ghi_chu",
+                HeaderText = "Ghi chú",
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+            });
+
 
             // In your styleDataGridView() method, after adding all columns:
             foreach (DataGridViewColumn col in dgvThietBi.Columns)
@@ -403,7 +455,7 @@ namespace QuanLyThietBi
             btn.MinimumWidth = width;
             btn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             btn.FlatStyle = FlatStyle.Popup;
-            //btn.Frozen = true;
+
             dgvThietBi.Columns.Add(btn);
         }
 
