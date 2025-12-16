@@ -36,14 +36,12 @@ namespace QuanLyThietBi
         {
             if (currentActiveButton != null)
             {
-                // reset button cũ
                 currentActiveButton.BackColor = Color.Transparent;
                 currentActiveButton.ForeColor = Color.White;
             }
 
-            // set button mới
             currentActiveButton = btn;
-            btn.BackColor = Color.FromArgb(0, 122, 204); // xanh nổi bật
+            btn.BackColor = Color.FromArgb(0, 122, 204);
             btn.ForeColor = Color.White;
         }
         private void ResetSubButton(Button btn)
@@ -73,6 +71,7 @@ namespace QuanLyThietBi
         private void btnThongKe_Click(object sender, EventArgs e)
         {
             ActiveButton(btnThongKe);
+            panelDanhMucConQL.Visible = false;
             LoadForm(new ThongKeForm());
         }
 
@@ -91,6 +90,7 @@ namespace QuanLyThietBi
         private void btnQuanLyDanhMuc_Click(object sender, EventArgs e)
         {
             ActiveButton(btnQuanLyDanhMuc);
+            panelDanhMucConQL.Visible = false;
         }
 
     }
