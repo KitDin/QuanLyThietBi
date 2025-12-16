@@ -15,13 +15,12 @@ namespace QuanLyThietBi
         private Button currentActiveButton = null;
         private Button currentSubButton = null;
 
-
-
         public home()
         {
             InitializeComponent();
             timeCurrent.Text = DateTime.Now.ToString("yyyy");
             username2.Text = UserSession.CurrentUser?.HoTen ?? string.Empty;
+            LoadForm(new ThongKeForm());
         }
         private void LoadForm(Form form)
         {
@@ -57,7 +56,7 @@ namespace QuanLyThietBi
             }
 
             currentSubButton = btn;
-            btn.BackColor = Color.FromArgb(241, 243, 224); // xanh
+            btn.BackColor = Color.FromArgb(241, 243, 224);
             btn.ForeColor = Color.Black;
         }
 

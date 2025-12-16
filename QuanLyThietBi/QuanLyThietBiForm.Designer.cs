@@ -42,10 +42,15 @@ namespace QuanLyThietBi
             cbTrangThai = new ComboBox();
             cbLoaiThietBi = new ComboBox();
             cbPhongBan = new ComboBox();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            btnExportExcel = new Button();
+            btnDelChoose = new Button();
+            linkChosse = new LinkLabel();
             tableLayoutPanel1.SuspendLayout();
             ((ISupportInitialize)dgvThietBi).BeginInit();
             panel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -108,12 +113,12 @@ namespace QuanLyThietBi
             dgvThietBi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvThietBi.BackgroundColor = Color.White;
             dgvThietBi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvThietBi.Cursor = Cursors.Hand;
             dgvThietBi.Dock = DockStyle.Fill;
-            dgvThietBi.Location = new Point(0, 45);
+            dgvThietBi.Location = new Point(0, 82);
             dgvThietBi.Name = "dgvThietBi";
-            dgvThietBi.ReadOnly = true;
             dgvThietBi.RowHeadersWidth = 51;
-            dgvThietBi.Size = new Size(1142, 456);
+            dgvThietBi.Size = new Size(1142, 419);
             dgvThietBi.TabIndex = 2;
             dgvThietBi.ColumnHeaderMouseClick += dgvThietBi_ColumnHeaderMouseClick;
             // 
@@ -129,15 +134,17 @@ namespace QuanLyThietBi
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.AutoSize = true;
             flowLayoutPanel1.Controls.Add(textSearch);
             flowLayoutPanel1.Controls.Add(cbTrangThai);
             flowLayoutPanel1.Controls.Add(cbLoaiThietBi);
             flowLayoutPanel1.Controls.Add(cbPhongBan);
+            flowLayoutPanel1.Controls.Add(tableLayoutPanel2);
             flowLayoutPanel1.Dock = DockStyle.Top;
             flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1142, 45);
+            flowLayoutPanel1.Size = new Size(1142, 82);
             flowLayoutPanel1.TabIndex = 3;
             // 
             // cbTrangThai
@@ -166,6 +173,62 @@ namespace QuanLyThietBi
             cbPhongBan.Size = new Size(200, 28);
             cbPhongBan.TabIndex = 1;
             // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.Anchor = AnchorStyles.Left;
+            tableLayoutPanel2.ColumnCount = 3;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel2.Controls.Add(btnExportExcel, 0, 0);
+            tableLayoutPanel2.Controls.Add(btnDelChoose, 1, 0);
+            tableLayoutPanel2.Controls.Add(linkChosse, 2, 0);
+            tableLayoutPanel2.Location = new Point(0, 39);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RightToLeft = RightToLeft.Yes;
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(1139, 40);
+            tableLayoutPanel2.TabIndex = 4;
+            // 
+            // btnExportExcel
+            // 
+            btnExportExcel.BackColor = Color.SteelBlue;
+            btnExportExcel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExportExcel.ForeColor = SystemColors.ControlLightLight;
+            btnExportExcel.Location = new Point(1014, 3);
+            btnExportExcel.Name = "btnExportExcel";
+            btnExportExcel.Size = new Size(122, 34);
+            btnExportExcel.TabIndex = 2;
+            btnExportExcel.Text = "Xuất EXCEL";
+            btnExportExcel.UseVisualStyleBackColor = false;
+            btnExportExcel.Click += btnExportExcel_Click;
+            // 
+            // btnDelChoose
+            // 
+            btnDelChoose.BackColor = Color.Red;
+            btnDelChoose.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDelChoose.ForeColor = SystemColors.ControlLightLight;
+            btnDelChoose.Location = new Point(909, 3);
+            btnDelChoose.Name = "btnDelChoose";
+            btnDelChoose.Size = new Size(99, 34);
+            btnDelChoose.TabIndex = 0;
+            btnDelChoose.Text = "Xoá ALL";
+            btnDelChoose.UseVisualStyleBackColor = false;
+            // 
+            // linkChosse
+            // 
+            linkChosse.Anchor = AnchorStyles.Left;
+            linkChosse.AutoSize = true;
+            linkChosse.Location = new Point(788, 10);
+            linkChosse.Name = "linkChosse";
+            linkChosse.Size = new Size(115, 20);
+            linkChosse.TabIndex = 1;
+            linkChosse.TabStop = true;
+            linkChosse.Text = "Xem ds đã chọn";
+            linkChosse.TextAlign = ContentAlignment.MiddleCenter;
+            linkChosse.LinkClicked += linkChosse_LinkClicked;
+            // 
             // QuanLyThietBiForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -186,8 +249,11 @@ namespace QuanLyThietBi
             tableLayoutPanel1.PerformLayout();
             ((ISupportInitialize)dgvThietBi).EndInit();
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -203,7 +269,6 @@ namespace QuanLyThietBi
             DataGridViewColumn newColumn = dgvThietBi.Columns[e.ColumnIndex];
             ListSortDirection direction;
 
-            // Kiểm tra nếu click vào cùng cột
             if (currentSortColumn == newColumn.Name && currentSortOrder == SortOrder.Ascending)
             {
                 direction = ListSortDirection.Descending;
@@ -263,8 +328,6 @@ namespace QuanLyThietBi
             dgvThietBi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgvThietBi.AllowUserToResizeColumns = true;
 
-            dgvThietBi.ReadOnly = true;
-
             dgvThietBi.AllowUserToAddRows = false;
 
             dgvThietBi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -276,9 +339,17 @@ namespace QuanLyThietBi
 
             dgvThietBi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvThietBi.MultiSelect = false;
-            dgvThietBi.AllowUserToAddRows = false;
-            dgvThietBi.ReadOnly = true;
 
+
+            var chkCol = new DataGridViewCheckBoxColumn
+            {
+                Name = "Checked",
+                HeaderText = "All",
+                Width = 60,
+
+            };
+
+            dgvThietBi.Columns.Insert(0, chkCol);
 
 
             dgvThietBi.Columns.Add(new DataGridViewTextBoxColumn
@@ -405,7 +476,6 @@ namespace QuanLyThietBi
                 Name = "Ghi_chu",
                 DataPropertyName = "Ghi_chu",
                 HeaderText = "Ghi chú",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
 
 
@@ -414,8 +484,43 @@ namespace QuanLyThietBi
                 if (col is DataGridViewButtonColumn)
                     col.SortMode = DataGridViewColumnSortMode.NotSortable;
                 else
+                {
                     col.SortMode = DataGridViewColumnSortMode.Automatic;
+                    col.ReadOnly = true;
+
+                }
             }
+
+            chkCol.ReadOnly = false;
+            chkCol.TrueValue = true;
+            chkCol.FalseValue = false;
+            chkCol.IndeterminateValue = false;
+
+            dgvThietBi.CellMouseEnter += dgvThietBi_CellMouseEnter;
+            dgvThietBi.CellMouseLeave += dgvThietBi_CellMouseLeave;
+
+            dgvThietBi.ColumnHeaderMouseDoubleClick += (s, e) =>
+            {
+                if (e.ColumnIndex < 0) return;
+
+                var col = dgvThietBi.Columns[e.ColumnIndex];
+                if (col.Name != "Checked") return;
+
+                dgvThietBi.EndEdit();
+
+                bool hasUnchecked = dgvThietBi.Rows
+                    .Cast<DataGridViewRow>()
+                    .Any(r => r.Cells["Checked"].Value == null ||
+                              r.Cells["Checked"].Value == DBNull.Value ||
+                              !(bool)r.Cells["Checked"].Value);
+
+                foreach (DataGridViewRow row in dgvThietBi.Rows)
+                {
+                    row.Cells["Checked"].Value = hasUnchecked;
+                }
+            };
+
+
         }
 
         private void dgvActions_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -431,6 +536,17 @@ namespace QuanLyThietBi
                 StyleButton(e, Color.White, Color.FromArgb(13, 110, 253));
             else if (colName == "btnDelete")
                 StyleButton(e, Color.White, Color.FromArgb(220, 53, 69));
+        }
+
+        private void dgvThietBi_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                dgvThietBi.Cursor = Cursors.Hand;
+        }
+
+        private void dgvThietBi_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            dgvThietBi.Cursor = Cursors.Default;
         }
 
         void StyleButton(DataGridViewCellFormattingEventArgs e, Color fore, Color back)
@@ -452,5 +568,9 @@ namespace QuanLyThietBi
         private ComboBox cbLoaiThietBi;
         private ComboBox cbPhongBan;
         private ComboBox cbTrangThai;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Button btnDelChoose;
+        private LinkLabel linkChosse;
+        private Button btnExportExcel;
     }
 }

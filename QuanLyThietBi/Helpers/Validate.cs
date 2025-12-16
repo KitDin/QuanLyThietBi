@@ -50,8 +50,12 @@ namespace QuanLyThietBi.Helpers
         }
         public static bool HasSpecialChar(string input)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(input, @"[^a-zA-Z0-9\s\-.]");
+            return System.Text.RegularExpressions.Regex.IsMatch(
+                input,
+                @"[^\p{L}\p{N}\s\-.]"
+            );
         }
+
 
 
 

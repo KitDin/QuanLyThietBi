@@ -5,9 +5,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using ClosedXML.Excel;
+using System.IO;
+
+
 
 namespace QuanLyThietBi
 {
@@ -20,10 +25,10 @@ namespace QuanLyThietBi
         Helpers.db.LookupDB lookupDB = new Helpers.db.LookupDB();
         private DataGridView dgvActions;
         private Panel containerPanel;
+        private List<Model.TrangThietBiModel> listTTB = new List<Model.TrangThietBiModel>();
         public QuanLyThietBiForm()
         {
             InitializeComponent();
-
             loadDataPhongBan();
             loadDataLoaiThietBi();
             loadDataTrangThai();
@@ -39,7 +44,6 @@ namespace QuanLyThietBi
             cbPhongBan.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             cbLoaiThietBi.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             cbTrangThai.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
-
 
         }
 
@@ -64,7 +68,6 @@ namespace QuanLyThietBi
                 AllowUserToAddRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 ScrollBars = ScrollBars.Horizontal,
-                ReadOnly = true
             };
 
             dgvActions = new DataGridView
@@ -83,17 +86,37 @@ namespace QuanLyThietBi
             containerPanel.Controls.Add(dgvThietBi);
             containerPanel.Controls.Add(dgvActions);
 
-            // XÓA dòng này: styleDataGridView();
             styleActionsGridView();
 
-            styleDataGridView(); // CHỈ GỌI 1 LẦN - tạo columns cho dgvThietBi
-            AddActionButtons(); // Tạo columns cho dgvActions
+            styleDataGridView();
+            AddActionButtons();
 
-            // THÊM EVENT HANDLER CHO dgvThietBi MỚI
             dgvThietBi.ColumnHeaderMouseClick += dgvThietBi_ColumnHeaderMouseClick;
+            dgvThietBi.CellDoubleClick += dgvThietBi_CellDoubleClick;
 
             dgvThietBi.Scroll += (s, e) => SyncScroll();
             dgvActions.Scroll += (s, e) => SyncScroll();
+        }
+
+
+        private void dgvThietBi_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var row = dgvThietBi.Rows[e.RowIndex];
+            var cell = row.Cells["Checked"];
+
+            var model = row.DataBoundItem as Model.TrangThietBiModel;
+
+            if (model != null)
+            {
+                listTTB.Add(model);
+            }
+
+            bool current = cell.Value != null && (bool)cell.Value;
+
+
+            cell.Value = !current;
         }
 
         private void AddActionButtons()
@@ -350,6 +373,273 @@ namespace QuanLyThietBi
                 if (dgvActions.Columns.Contains("btnTransfer"))
                     dgvActions.Columns["btnTransfer"].Visible = false;
             }
+        }
+
+        private void linkChosse_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var selectedList = GetCheckedItems();
+
+            if (selectedList.Count == 0)
+            {
+                MessageBox.Show("Chưa chọn thiết bị nào!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            Form frm = new Form
+            {
+                Text = "Danh sách thiết bị đã chọn",
+                Width = 900,
+                Height = 500,
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            DataGridView dgv = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                ReadOnly = true,
+                AutoGenerateColumns = true
+            };
+
+            dgv.DataSource = new BindingList<Model.TrangThietBiModel>(selectedList);
+
+            if (dgv.Columns.Contains("Dia_chi_IP"))
+            {
+                dgv.Columns["Dia_chi_IP"].Visible = false;
+            }
+
+            frm.Controls.Add(dgv);
+            frm.ShowDialog();
+        }
+
+
+        private List<Model.TrangThietBiModel> GetCheckedItems()
+        {
+            dgvThietBi.EndEdit();
+
+            listTTB = dgvThietBi.Rows
+                .Cast<DataGridViewRow>()
+                .Where(r => r.Cells["Checked"].Value != null &&
+                            r.Cells["Checked"].Value != DBNull.Value &&
+                            (bool)r.Cells["Checked"].Value)
+                .Select(r => r.DataBoundItem as Model.TrangThietBiModel)
+                .Where(m => m != null)
+                .ToList();
+            return listTTB;
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            var selectedList = GetCheckedItems();
+
+            if (selectedList.Count == 0)
+            {
+                MessageBox.Show("Chưa chọn thiết bị nào để xuất Excel!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            ExportToExcel(selectedList);
+        }
+
+        private void ExportToExcel(List<Model.TrangThietBiModel> data)
+        {
+            if (data.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Excel Files (*.xlsx)|*.xlsx",
+                FileName = $"DanhSachThietBi_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx"
+            };
+
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Thiết bị");
+
+                    worksheet.Cell(1, 1).Value = "Mã thiết bị";
+                    worksheet.Cell(1, 2).Value = "Model";
+                    worksheet.Cell(1, 3).Value = "Số Seri";
+                    worksheet.Cell(1, 4).Value = "Loại thiết bị";
+                    worksheet.Cell(1, 5).Value = "Phòng ban";
+                    worksheet.Cell(1, 6).Value = "Trạng thái";
+                    worksheet.Cell(1, 7).Value = "Thời gian mua";
+
+
+                    worksheet.Cell(1, 1).Value = "Mã thiết bị";
+                    worksheet.Cell(1, 2).Value = "Tên thiết bị";
+                    worksheet.Cell(1, 3).Value = "Loại thiết bị";
+                    worksheet.Cell(1, 4).Value = "Tên phòng ban";
+                    worksheet.Cell(1, 5).Value = "Tên trạng thái";
+
+                    worksheet.Cell(1, 6).Value = "Đơn vị tính";
+                    worksheet.Cell(1, 7).Value = "Model";
+                    worksheet.Cell(1, 8).Value = "Số seri";
+
+                    worksheet.Cell(1, 9).Value = "Thời gian mua";
+                    worksheet.Cell(1, 10).Value = "Cấu hình";
+                    worksheet.Cell(1, 11).Value = "Loại kết nối";
+                    worksheet.Cell(1, 12).Value = "Đơn giá";
+                    worksheet.Cell(1, 13).Value = "Thời gian được sử dụng";
+                    worksheet.Cell(1, 14).Value = "Thời gian bảo chì";
+                    worksheet.Cell(1, 15).Value = "Hạng bảo hành";
+                    worksheet.Cell(1, 16).Value = "Ghi chú";
+
+
+                    var headerRange = worksheet.Range(1, 1, 1, 16);
+                    headerRange.Style.Font.Bold = true;
+                    headerRange.Style.Fill.BackgroundColor = XLColor.FromHtml("#007ACC");
+                    headerRange.Style.Font.FontColor = XLColor.White;
+                    headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    int row = 2;
+                    foreach (var item in data)
+                    {
+                        worksheet.Cell(row, 1).Value = item.Ma_trang_thiet_bi;
+                        worksheet.Cell(row, 2).Value = item.Ten_trang_thiet_bi;
+                        worksheet.Cell(row, 3).Value = item.Ten_loai_thiet_bi;
+                        worksheet.Cell(row, 4).Value = item.Ten_phong_ban;
+                        worksheet.Cell(row, 5).Value = item.Ten_trang_thai;
+
+                        worksheet.Cell(row, 6).Value = item.Don_vi_tinh;
+                        worksheet.Cell(row, 7).Value = item.Model;
+                        worksheet.Cell(row, 8).Value = item.So_seri;
+
+                        worksheet.Cell(row, 9).Value = item.Thoi_gian_mua;
+                        worksheet.Cell(row, 9).Style.DateFormat.Format = "dd/MM/yyyy";
+                        worksheet.Cell(row, 10).Value = item.Cau_hinh;
+                        worksheet.Cell(row, 11).Value = item.Loai_ket_noi;
+                        worksheet.Cell(row, 12).Value = item.Don_gia;
+                        worksheet.Cell(row, 12).Style.NumberFormat.Format = "#,##0.00";
+                        worksheet.Cell(row, 13).Value = item.Thoi_gian_dua_vao_su_dung;
+                        worksheet.Cell(row, 13).Style.DateFormat.Format = "dd/MM/yyyy";
+                        worksheet.Cell(row, 14).Value = item.Thoi_gian_bao_tri;
+                        worksheet.Cell(row, 14).Style.DateFormat.Format = "dd/MM/yyyy";
+                        worksheet.Cell(row, 15).Value = item.Hang_bao_hanh;
+                        worksheet.Cell(row, 15).Style.DateFormat.Format = "dd/MM/yyyy";
+                        worksheet.Cell(row, 16).Value = item.Ghi_chu;
+                        row++;
+                    }
+
+                    worksheet.Columns().AdjustToContents();
+
+                    var dataRange = worksheet.Range(1, 1, row - 1, 16);
+                    dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                    workbook.SaveAs(sfd.FileName);
+                }
+                ShowExportSuccessDialog(sfd.FileName, data.Count);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xuất Excel: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void ShowExportSuccessDialog(string filePath, int count)
+        {
+            int seconds = 5;
+
+            Form frm = new Form
+            {
+                Width = 420,
+                Height = 200,
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Text = "Xác nhận",
+                TopMost = true
+            };
+
+            Label lbl = new Label
+            {
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 10),
+                Text = $"Xuất Excel thành công!\n" +
+                       $"Đã xuất {count} thiết bị.\n" +
+                       $"File sẽ tự động mở trong {seconds}s."
+            };
+
+            Button btnOk = new Button
+            {
+                Text = $"OK ({seconds})",
+                Dock = DockStyle.Bottom,
+                Height = 45
+            };
+
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer { Interval = 1000 };
+
+            timer.Tick += (s, e) =>
+            {
+                seconds--;
+                btnOk.Text = $"OK ({seconds})";
+                lbl.Text = $"Xuất thành công!\n" +
+                           $"Đã xuất {count} thiết bị.\n" +
+                           $"File sẽ tự động mở trong {seconds}s.";
+
+                if (seconds <= 0)
+                {
+                    timer.Stop();
+                    frm.Close();
+                }
+            };
+
+            btnOk.Click += (s, e) =>
+            {
+                timer.Stop();
+                frm.Close();
+            };
+
+            frm.FormClosed += (s, e) =>
+            {
+                try
+                {
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(
+                            new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = filePath,
+                                UseShellExecute = true
+                            });
+                    }
+                }
+                catch (Exception openEx)
+                {
+                    MessageBox.Show($"File đã được lưu nhưng không thể tự động mở.\nVui lòng mở thủ công tại:\n{filePath}",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+
+            };
+
+            frm.Controls.Add(lbl);
+            frm.Controls.Add(btnOk);
+
+            timer.Start();
+            frm.ShowDialog();
         }
 
 
