@@ -1,16 +1,19 @@
-﻿using QuanLyThietBi.Helpers.auth;
+﻿using ClosedXML.Excel;
+using QuanLyThietBi.Helpers;
+using QuanLyThietBi.Helpers.auth;
 using QuanLyThietBi.Helpers.db;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using ClosedXML.Excel;
-using System.IO;
+using System.Diagnostics;
 
 
 
@@ -340,7 +343,69 @@ namespace QuanLyThietBi
             }
             else if (colName == "btnTransfer")
             {
-                MessageBox.Show("Tính năng đăng phát triển: " + maThietBi);
+                var row = dgvThietBi.Rows[e.RowIndex];
+
+                string baseDir = AppContext.BaseDirectory;
+                string htmlPath = Path.Combine(baseDir, "Templates", "HopDongDieuChuyen.html");
+
+                string html = File.ReadAllText(htmlPath);
+
+                html = html.Replace("{{BenGiao}}", "Phòng CNTT");
+                html = html.Replace("{{BenNhan}}", "Phòng Hành Chính");
+                html = html.Replace("{{Ngay}}", DateTime.Now.ToString("dd"));
+                html = html.Replace("{{Thang}}", DateTime.Now.ToString("MM"));
+                html = html.Replace("{{Nam}}", DateTime.Now.ToString("yyyy"));
+                html = html.Replace("{{TenThietBi}}", row.Cells["Ten_trang_thiet_bi"].Value.ToString());
+                html = html.Replace("{{MaThietBi}}", row.Cells["Ma_trang_thiet_bi"].Value.ToString());
+                html = html.Replace("{{Serial}}", row.Cells["So_seri"].Value.ToString());
+
+
+                string defaultFileName =
+                    $"HopDong_DC_{row.Cells["Ma_trang_thiet_bi"].Value}.pdf";
+
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                    sfd.FileName = defaultFileName;
+                    sfd.InitialDirectory =
+                        Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        //PdfService.Export(html, sfd.FileName);
+                        //string finalPath = GetUniqueFilePath(sfd.FileName);
+
+                        //PdfService.Export(html, finalPath);
+                        //MessageBox.Show("Đã xuất hợp đồng PDF!",
+                        //    "Thành công",
+                        //    MessageBoxButtons.OK,
+                        //    MessageBoxIcon.Information);
+
+                        //Process.Start(new ProcessStartInfo
+                        //{
+                        //    FileName = sfd.FileName,
+                        //    UseShellExecute = true
+                        //});
+
+                        string selectedPath = sfd.FileName;
+
+                        string finalPath = selectedPath;
+
+                        if (File.Exists(selectedPath))
+                        {
+                            finalPath = GetUniqueFilePath(selectedPath);
+                        }
+
+                        PdfService.Export(html, finalPath);
+
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = finalPath,
+                            UseShellExecute = true
+                        });
+                    }
+                }
+
             }
             else if (colName == "btnDelete")
             {
@@ -357,6 +422,30 @@ namespace QuanLyThietBi
                 }
             }
         }
+
+        private string GetUniqueFilePath(string filePath)
+        {
+            if (!File.Exists(filePath))
+                return filePath;
+
+            string dir = Path.GetDirectoryName(filePath);
+            string name = Path.GetFileNameWithoutExtension(filePath);
+            string ext = Path.GetExtension(filePath);
+
+            int count = 1;
+            string newPath;
+
+            do
+            {
+                newPath = Path.Combine(dir, $"{name} ({count}){ext}");
+                count++;
+            }
+            while (File.Exists(newPath));
+
+            return newPath;
+        }
+
+
 
         private void ApplyPermission()
         {
@@ -576,7 +665,7 @@ namespace QuanLyThietBi
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe UI", 10),
-                Text = $"Xuất Excel thành công!\n" +
+                Text = $"Xuất thành công!\n" +
                        $"Đã xuất {count} thiết bị.\n" +
                        $"File sẽ tự động mở trong {seconds}s."
             };

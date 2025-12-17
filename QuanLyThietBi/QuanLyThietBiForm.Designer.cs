@@ -109,7 +109,7 @@ namespace QuanLyThietBi
             // 
             // dgvThietBi
             // 
-            dgvThietBi.AllowUserToOrderColumns = true;
+            //dgvThietBi.AllowUserToOrderColumns = true;
             dgvThietBi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvThietBi.BackgroundColor = Color.White;
             dgvThietBi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -326,7 +326,7 @@ namespace QuanLyThietBi
 
             dgvThietBi.ScrollBars = ScrollBars.Both;
             dgvThietBi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            dgvThietBi.AllowUserToResizeColumns = true;
+            //dgvThietBi.AllowUserToResizeColumns = true;
 
             dgvThietBi.AllowUserToAddRows = false;
 
@@ -338,7 +338,16 @@ namespace QuanLyThietBi
             dgvThietBi.Columns.Clear();
 
             dgvThietBi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvThietBi.AllowUserToOrderColumns = false;
+
+            dgvThietBi.AllowUserToResizeColumns = false;
+
+            dgvThietBi.AllowUserToResizeRows = false;
+
+            dgvThietBi.AllowDrop = false;
+
             dgvThietBi.MultiSelect = false;
+
 
 
             var chkCol = new DataGridViewCheckBoxColumn
