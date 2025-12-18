@@ -43,9 +43,10 @@ namespace QuanLyThietBi
             cbLoaiThietBi = new ComboBox();
             cbPhongBan = new ComboBox();
             tableLayoutPanel2 = new TableLayoutPanel();
-            btnExportExcel = new Button();
             btnDelChoose = new Button();
+            btnExportExcel = new Button();
             linkChosse = new LinkLabel();
+            btnExportPDF = new Button();
             tableLayoutPanel1.SuspendLayout();
             ((ISupportInitialize)dgvThietBi).BeginInit();
             panel1.SuspendLayout();
@@ -109,7 +110,6 @@ namespace QuanLyThietBi
             // 
             // dgvThietBi
             // 
-            //dgvThietBi.AllowUserToOrderColumns = true;
             dgvThietBi.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvThietBi.BackgroundColor = Color.White;
             dgvThietBi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -176,13 +176,15 @@ namespace QuanLyThietBi
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.Anchor = AnchorStyles.Left;
-            tableLayoutPanel2.ColumnCount = 3;
+            tableLayoutPanel2.ColumnCount = 4;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel2.Controls.Add(btnExportExcel, 0, 0);
-            tableLayoutPanel2.Controls.Add(btnDelChoose, 1, 0);
-            tableLayoutPanel2.Controls.Add(linkChosse, 2, 0);
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Controls.Add(btnDelChoose, 2, 0);
+            tableLayoutPanel2.Controls.Add(btnExportExcel, 1, 0);
+            tableLayoutPanel2.Controls.Add(linkChosse, 3, 0);
+            tableLayoutPanel2.Controls.Add(btnExportPDF, 0, 0);
             tableLayoutPanel2.Location = new Point(0, 39);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RightToLeft = RightToLeft.Yes;
@@ -191,12 +193,24 @@ namespace QuanLyThietBi
             tableLayoutPanel2.Size = new Size(1139, 40);
             tableLayoutPanel2.TabIndex = 4;
             // 
+            // btnDelChoose
+            // 
+            btnDelChoose.BackColor = Color.Red;
+            btnDelChoose.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDelChoose.ForeColor = SystemColors.ControlLightLight;
+            btnDelChoose.Location = new Point(781, 3);
+            btnDelChoose.Name = "btnDelChoose";
+            btnDelChoose.Size = new Size(99, 34);
+            btnDelChoose.TabIndex = 0;
+            btnDelChoose.Text = "Xoá ALL";
+            btnDelChoose.UseVisualStyleBackColor = false;
+            // 
             // btnExportExcel
             // 
             btnExportExcel.BackColor = Color.SteelBlue;
             btnExportExcel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnExportExcel.ForeColor = SystemColors.ControlLightLight;
-            btnExportExcel.Location = new Point(1014, 3);
+            btnExportExcel.Location = new Point(886, 3);
             btnExportExcel.Name = "btnExportExcel";
             btnExportExcel.Size = new Size(122, 34);
             btnExportExcel.TabIndex = 2;
@@ -204,23 +218,11 @@ namespace QuanLyThietBi
             btnExportExcel.UseVisualStyleBackColor = false;
             btnExportExcel.Click += btnExportExcel_Click;
             // 
-            // btnDelChoose
-            // 
-            btnDelChoose.BackColor = Color.Red;
-            btnDelChoose.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDelChoose.ForeColor = SystemColors.ControlLightLight;
-            btnDelChoose.Location = new Point(909, 3);
-            btnDelChoose.Name = "btnDelChoose";
-            btnDelChoose.Size = new Size(99, 34);
-            btnDelChoose.TabIndex = 0;
-            btnDelChoose.Text = "Xoá ALL";
-            btnDelChoose.UseVisualStyleBackColor = false;
-            // 
             // linkChosse
             // 
             linkChosse.Anchor = AnchorStyles.Left;
             linkChosse.AutoSize = true;
-            linkChosse.Location = new Point(788, 10);
+            linkChosse.Location = new Point(660, 10);
             linkChosse.Name = "linkChosse";
             linkChosse.Size = new Size(115, 20);
             linkChosse.TabIndex = 1;
@@ -228,6 +230,19 @@ namespace QuanLyThietBi
             linkChosse.Text = "Xem ds đã chọn";
             linkChosse.TextAlign = ContentAlignment.MiddleCenter;
             linkChosse.LinkClicked += linkChosse_LinkClicked;
+            // 
+            // btnExportPDF
+            // 
+            btnExportPDF.BackColor = Color.SteelBlue;
+            btnExportPDF.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExportPDF.ForeColor = SystemColors.ControlLightLight;
+            btnExportPDF.Location = new Point(1014, 3);
+            btnExportPDF.Name = "btnExportPDF";
+            btnExportPDF.Size = new Size(122, 34);
+            btnExportPDF.TabIndex = 3;
+            btnExportPDF.Text = "Tạo hợp đồng";
+            btnExportPDF.UseVisualStyleBackColor = false;
+            btnExportPDF.Click += btnExportPDF_Click;
             // 
             // QuanLyThietBiForm
             // 
@@ -515,6 +530,7 @@ namespace QuanLyThietBi
                 var col = dgvThietBi.Columns[e.ColumnIndex];
                 if (col.Name != "Checked") return;
 
+
                 dgvThietBi.EndEdit();
 
                 bool hasUnchecked = dgvThietBi.Rows
@@ -581,5 +597,6 @@ namespace QuanLyThietBi
         private Button btnDelChoose;
         private LinkLabel linkChosse;
         private Button btnExportExcel;
+        private Button btnExportPDF;
     }
 }

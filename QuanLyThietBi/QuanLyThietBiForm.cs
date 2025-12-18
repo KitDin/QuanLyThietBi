@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Diagnostics;
 
 
 
@@ -341,6 +342,7 @@ namespace QuanLyThietBi
                 ttb.FormClosed += (s, args) => LoadData();
                 ttb.ShowDialog();
             }
+
             else if (colName == "btnTransfer")
             {
                 var row = dgvThietBi.Rows[e.RowIndex];
@@ -350,18 +352,28 @@ namespace QuanLyThietBi
 
                 string html = File.ReadAllText(htmlPath);
 
-                html = html.Replace("{{BenGiao}}", "Phòng CNTT");
-                html = html.Replace("{{BenNhan}}", "Phòng Hành Chính");
+                html = html.Replace("{{DonViA}}", "Phòng CNTT");
+                html = html.Replace("{{DonViB}}", "Phòng Hành Chính");
                 html = html.Replace("{{Ngay}}", DateTime.Now.ToString("dd"));
                 html = html.Replace("{{Thang}}", DateTime.Now.ToString("MM"));
                 html = html.Replace("{{Nam}}", DateTime.Now.ToString("yyyy"));
-                html = html.Replace("{{TenThietBi}}", row.Cells["Ten_trang_thiet_bi"].Value.ToString());
-                html = html.Replace("{{MaThietBi}}", row.Cells["Ma_trang_thiet_bi"].Value.ToString());
-                html = html.Replace("{{Serial}}", row.Cells["So_seri"].Value.ToString());
+                int stt = 1;
+                var item = row.DataBoundItem as Model.TrangThietBiModel;
 
+                string selected = $@"
+                        <tr>
+                            <td style='text-align:center'>{stt}</td>
+                            <td>{Html(item.Ten_trang_thiet_bi)}</td>
+                            <td style='text-align:center'>{Html(item.Don_vi_tinh)}</td>
+                            <td style='text-align:center'>1</td>
+                            <td></td>
+                        </tr>";
+
+
+                html = html.Replace("{{BangTaiSan}}", selected);
 
                 string defaultFileName =
-                    $"HopDong_DC_{row.Cells["Ma_trang_thiet_bi"].Value}.pdf";
+                    $"HopDong_DC_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
 
                 using (SaveFileDialog sfd = new SaveFileDialog())
                 {
@@ -372,29 +384,9 @@ namespace QuanLyThietBi
 
                     if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        //PdfService.Export(html, sfd.FileName);
-                        //string finalPath = GetUniqueFilePath(sfd.FileName);
-
-                        //PdfService.Export(html, finalPath);
-                        //MessageBox.Show("Đã xuất hợp đồng PDF!",
-                        //    "Thành công",
-                        //    MessageBoxButtons.OK,
-                        //    MessageBoxIcon.Information);
-
-                        //Process.Start(new ProcessStartInfo
-                        //{
-                        //    FileName = sfd.FileName,
-                        //    UseShellExecute = true
-                        //});
-
-                        string selectedPath = sfd.FileName;
-
-                        string finalPath = selectedPath;
-
-                        if (File.Exists(selectedPath))
-                        {
-                            finalPath = GetUniqueFilePath(selectedPath);
-                        }
+                        string finalPath = File.Exists(sfd.FileName)
+                            ? GetUniqueFilePath(sfd.FileName)
+                            : sfd.FileName;
 
                         PdfService.Export(html, finalPath);
 
@@ -405,7 +397,6 @@ namespace QuanLyThietBi
                         });
                     }
                 }
-
             }
             else if (colName == "btnDelete")
             {
@@ -421,6 +412,31 @@ namespace QuanLyThietBi
                     }
                 }
             }
+        }
+
+        private string BuildBangThietBi(List<Model.TrangThietBiModel> list)
+        {
+            StringBuilder sb = new StringBuilder();
+            int stt = 1;
+
+            foreach (var item in list)
+            {
+                sb.AppendLine($@"
+<tr>
+    <td style='text-align:center'>{stt++}</td>
+    <td>{Html(item.Ten_trang_thiet_bi)}</td>
+    <td style='text-align:center'>{Html(item.Don_vi_tinh)}</td>
+    <td style='text-align:center'>1</td>
+    <td></td>
+</tr>");
+            }
+
+            return sb.ToString();
+        }
+
+        private string Html(string value)
+        {
+            return WebUtility.HtmlEncode(value ?? "");
         }
 
         private string GetUniqueFilePath(string filePath)
@@ -731,6 +747,58 @@ namespace QuanLyThietBi
             frm.ShowDialog();
         }
 
+        private void btnExportPDF_Click(object sender, EventArgs e)
+        {
+            var selectedList = GetCheckedItems();
 
+            if (selectedList.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ít nhất 1 thiết bị để điều chuyển.",
+                    "Thiếu dữ liệu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            string baseDir = AppContext.BaseDirectory;
+            string htmlPath = Path.Combine(baseDir, "Templates", "HopDongDieuChuyen.html");
+
+            string html = File.ReadAllText(htmlPath);
+
+            html = html.Replace("{{DonViA}}", "Phòng CNTT");
+            html = html.Replace("{{DonViB}}", "Phòng Hành Chính");
+            html = html.Replace("{{Ngay}}", DateTime.Now.ToString("dd"));
+            html = html.Replace("{{Thang}}", DateTime.Now.ToString("MM"));
+            html = html.Replace("{{Nam}}", DateTime.Now.ToString("yyyy"));
+
+            string bangThietBi = BuildBangThietBi(selectedList);
+            html = html.Replace("{{BangTaiSan}}", bangThietBi);
+
+            string defaultFileName =
+                $"HopDong_DC_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PDF files (*.pdf)|*.pdf";
+                sfd.FileName = defaultFileName;
+                sfd.InitialDirectory =
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string finalPath = File.Exists(sfd.FileName)
+                        ? GetUniqueFilePath(sfd.FileName)
+                        : sfd.FileName;
+
+                    PdfService.Export(html, finalPath);
+
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = finalPath,
+                        UseShellExecute = true
+                    });
+                }
+            }
+        }
     }
 }

@@ -8,15 +8,16 @@
     body {
         font-family: "Times New Roman", serif;
         font-size: 13pt;
-        margin: 3cm 2.5cm 3cm 2.5cm;
+        margin: 1.27cm 1.600cm 0.635cm 2.235cm;
         line-height: 1.4;
     }
 
-
-
+    .left { text-align: left; }
     .center { text-align: center; }
     .bold { font-weight: bold; }
     .italic { font-style: italic; }
+
+    .fs-14 { font-size: 14pt; }
 
     .mt-10 { margin-top: 10px; }
     .mt-20 { margin-top: 20px; }
@@ -29,7 +30,7 @@
     }
 
     table, th, td {
-        border: 1px solid black;
+        border: 0.5px solid black;
     }
 
     th, td {
@@ -39,7 +40,7 @@
     }
 
 .header-table {
-    width: 100%;
+   width: 100%;
   border: none !important;
 }
 
@@ -80,7 +81,7 @@
     <tr>
         <td class="header-left">
             <div class="header-text"> CÔNG TY CP BỆNH VIỆN <br>
-ĐA KHOA TÂM TRÍ CAO LÃNH </div>
+                ĐA KHOA TÂM TRÍ CAO LÃNH </div>
             <div class="underline"></div>
         </td>
 
@@ -92,20 +93,21 @@
             <div class="underline"></div>
 
             <div class="date-line">
-                Đồng Tháp, ngày {{Ngay}} tháng {{Thang}} năm {{Nam}}
+                Đồng Tháp, ngày {{Ngay}} tháng {{Thang}} năm {{Nam}}.
             </div>
         </td>
     </tr>
 </table>
 
+
+<div class="center bold mt-20 fs-14">
+    BIÊN BẢN BÀN GIAO VÀ NGHIỆM THU
+</div>
+
+
 <div class="center mt-10">
     -------------------------
 </div>
-
-<div class="center bold mt-20">
-    BIÊN BẢN BÀN GIAO
-</div>
-
 
 <div class="mt-20">
     Hôm nay, ngày {{Ngay}} tháng {{Thang}} năm {{Nam}},
@@ -141,13 +143,17 @@
 </div>
 
 <div class="mt-20">
-    Hai bên tiến hành bàn giao và nghiệm thu tài sản với nội dung như sau:
+    Hai bên tiến hành bàn giao và nghiệm thu tài sản với nội dung theo bảng thống kê như sau:
 </div>
 
-<table>
+<div class="center bold mt-20">
+BẢNG THỐNG KÊ TÀI SẢN BÀN GIAO VÀ NGHIỆM THU
+</div>
+
+<table class="mt-10">
     <tr>
         <th>STT</th>
-        <th>Tên tài sản</th>
+        <th>Tên hàng</th>
         <th>ĐVT</th>
         <th>Số lượng</th>
         <th>Ghi chú</th>
@@ -166,6 +172,10 @@
                 <br>
                 <br>
                 <br>
+                <br>
+                <br>
+                <br>
+
                 </div>
 
              <div class="header-text mt-30">
@@ -176,6 +186,9 @@
         <td class="header-right">
             <div class="header-text">
                 Đại diện bên nhận
+                <br>
+                <br>
+                <br>
                 <br>
                 <br>
                 <br>
