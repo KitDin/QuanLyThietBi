@@ -15,13 +15,12 @@ namespace QuanLyThietBi
         private Button currentActiveButton = null;
         private Button currentSubButton = null;
 
-
-
         public home()
         {
             InitializeComponent();
             timeCurrent.Text = DateTime.Now.ToString("yyyy");
             username2.Text = UserSession.CurrentUser?.HoTen ?? string.Empty;
+            LoadForm(new ThongKeForm());
         }
         private void LoadForm(Form form)
         {
@@ -36,14 +35,12 @@ namespace QuanLyThietBi
         {
             if (currentActiveButton != null)
             {
-                // reset button cũ
                 currentActiveButton.BackColor = Color.Transparent;
                 currentActiveButton.ForeColor = Color.White;
             }
 
-            // set button mới
             currentActiveButton = btn;
-            btn.BackColor = Color.FromArgb(0, 122, 204); // xanh nổi bật
+            btn.BackColor = Color.FromArgb(0, 122, 204);
             btn.ForeColor = Color.White;
         }
         private void ResetSubButton(Button btn)
@@ -59,7 +56,7 @@ namespace QuanLyThietBi
             }
 
             currentSubButton = btn;
-            btn.BackColor = Color.FromArgb(241, 243, 224); // xanh
+            btn.BackColor = Color.FromArgb(241, 243, 224);
             btn.ForeColor = Color.Black;
         }
 
@@ -73,6 +70,7 @@ namespace QuanLyThietBi
         private void btnThongKe_Click(object sender, EventArgs e)
         {
             ActiveButton(btnThongKe);
+            panelDanhMucConQL.Visible = false;
             LoadForm(new ThongKeForm());
         }
 
@@ -91,6 +89,7 @@ namespace QuanLyThietBi
         private void btnQuanLyDanhMuc_Click(object sender, EventArgs e)
         {
             ActiveButton(btnQuanLyDanhMuc);
+            panelDanhMucConQL.Visible = false;
         }
 
     }

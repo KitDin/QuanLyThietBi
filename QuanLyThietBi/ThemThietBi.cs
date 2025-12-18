@@ -331,8 +331,6 @@ namespace QuanLyThietBi
             }
 
 
-
-
             model.GhiChu = tbGhiChu.Text.Trim();
 
             return model;

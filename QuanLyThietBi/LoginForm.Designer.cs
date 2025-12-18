@@ -1,4 +1,6 @@
-﻿namespace QuanLyThietBi
+﻿using System.Drawing.Drawing2D;
+
+namespace QuanLyThietBi
 {
     partial class LoginForm
     {
@@ -28,166 +30,277 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tableLayoutPanel1 = new TableLayoutPanel();
-            tableLayoutPanel3 = new TableLayoutPanel();
+            mainPanel = new TableLayoutPanel();
+            titleLabel = new Label();
+            subtitleLabel = new Label();
+            usernameLabel = new Label();
+            passwordLabel = new Label();
             loginButton = new Button();
-            cancelButton = new Button();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            label2 = new Label();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
-            label1 = new Label();
+            supportLabel = new Label();
             panel1 = new Panel();
-            tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
+            passwordTextBox = new TextBox();
+            panel2 = new Panel();
+            usernameTextBox = new TextBox();
+            logoBox = new PictureBox();
+            mainPanel.SuspendLayout();
             panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
             SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // mainPanel
             // 
-            tableLayoutPanel1.Anchor = AnchorStyles.None;
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-            tableLayoutPanel1.Location = new Point(55, 21);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(250, 125);
-            tableLayoutPanel1.TabIndex = 5;
+            mainPanel.BackColor = SystemColors.ButtonHighlight;
+            mainPanel.ColumnCount = 2;
+            mainPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            mainPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            mainPanel.Controls.Add(titleLabel, 1, 0);
+            mainPanel.Controls.Add(subtitleLabel, 0, 2);
+            mainPanel.Controls.Add(usernameLabel, 0, 4);
+            mainPanel.Controls.Add(passwordLabel, 0, 7);
+            mainPanel.Controls.Add(loginButton, 0, 13);
+            mainPanel.Controls.Add(supportLabel, 0, 19);
+            mainPanel.Controls.Add(panel1, 0, 8);
+            mainPanel.Controls.Add(panel2, 0, 5);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(0, 0);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Padding = new Padding(50, 20, 50, 20);
+            mainPanel.RowCount = 20;
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            mainPanel.RowStyles.Add(new RowStyle());
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            mainPanel.RowStyles.Add(new RowStyle());
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle());
+            mainPanel.RowStyles.Add(new RowStyle());
+            mainPanel.RowStyles.Add(new RowStyle());
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            mainPanel.Size = new Size(532, 574);
+            mainPanel.TabIndex = 0;
             // 
-            // tableLayoutPanel3
+            // titleLabel
             // 
-            tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.Controls.Add(loginButton, 0, 0);
-            tableLayoutPanel3.Controls.Add(cancelButton, 1, 0);
-            tableLayoutPanel3.Location = new Point(3, 65);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 1;
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.Size = new Size(244, 57);
-            tableLayoutPanel3.TabIndex = 7;
+            titleLabel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            titleLabel.AutoSize = true;
+            mainPanel.SetColumnSpan(titleLabel, 2);
+            titleLabel.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            titleLabel.ForeColor = Color.FromArgb(17, 20, 24);
+            titleLabel.Location = new Point(53, 70);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(426, 64);
+            titleLabel.TabIndex = 0;
+            titleLabel.Text = "Hệ thống Quản lý Thiết bị";
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // subtitleLabel
+            // 
+            subtitleLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            subtitleLabel.AutoSize = true;
+            mainPanel.SetColumnSpan(subtitleLabel, 2);
+            subtitleLabel.Font = new Font("Segoe UI", 10F);
+            subtitleLabel.ForeColor = Color.FromArgb(97, 117, 137);
+            subtitleLabel.Location = new Point(53, 134);
+            subtitleLabel.Name = "subtitleLabel";
+            subtitleLabel.Size = new Size(426, 20);
+            subtitleLabel.TabIndex = 1;
+            subtitleLabel.Text = "Đăng nhập để truy cập hệ thống nội bộ";
+            subtitleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // usernameLabel
+            // 
+            usernameLabel.AutoSize = true;
+            mainPanel.SetColumnSpan(usernameLabel, 2);
+            usernameLabel.Font = new Font("Segoe UI", 10F);
+            usernameLabel.ForeColor = Color.FromArgb(17, 20, 24);
+            usernameLabel.Location = new Point(53, 188);
+            usernameLabel.Name = "usernameLabel";
+            usernameLabel.Size = new Size(245, 23);
+            usernameLabel.TabIndex = 2;
+            usernameLabel.Text = "Tên đăng nhập / Mã nhân viên";
+            // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            mainPanel.SetColumnSpan(passwordLabel, 2);
+            passwordLabel.Font = new Font("Segoe UI", 10F);
+            passwordLabel.ForeColor = Color.FromArgb(17, 20, 24);
+            passwordLabel.Location = new Point(53, 270);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new Size(82, 23);
+            passwordLabel.TabIndex = 4;
+            passwordLabel.Text = "Mật khẩu";
             // 
             // loginButton
             // 
-            loginButton.Anchor = AnchorStyles.None;
-            loginButton.BackColor = SystemColors.ActiveCaption;
-            loginButton.ForeColor = SystemColors.ActiveCaptionText;
-            loginButton.Location = new Point(14, 14);
+            loginButton.BackColor = Color.FromArgb(19, 127, 236);
+            mainPanel.SetColumnSpan(loginButton, 2);
+            loginButton.Cursor = Cursors.Hand;
+            loginButton.FlatAppearance.BorderSize = 0;
+            loginButton.FlatStyle = FlatStyle.Flat;
+            loginButton.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            loginButton.ForeColor = Color.White;
+            loginButton.Location = new Point(53, 375);
             loginButton.Name = "loginButton";
-            loginButton.Size = new Size(94, 29);
-            loginButton.TabIndex = 7;
-            loginButton.Text = "Đăng nhập";
+            loginButton.Size = new Size(426, 48);
+            loginButton.TabIndex = 6;
+            loginButton.Text = "Đăng nhập →";
             loginButton.UseVisualStyleBackColor = false;
-            loginButton.Click += login_click;
+            loginButton.Click += loginButton_Click;
             // 
-            // cancelButton
+            // supportLabel
             // 
-            cancelButton.Anchor = AnchorStyles.None;
-            cancelButton.Location = new Point(136, 14);
-            cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(94, 29);
-            cancelButton.TabIndex = 6;
-            cancelButton.Text = "Huỷ";
-            cancelButton.UseVisualStyleBackColor = true;
-            cancelButton.Click += cancel_click;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Controls.Add(label2, 1, 0);
-            tableLayoutPanel2.Controls.Add(textBox2, 1, 1);
-            tableLayoutPanel2.Controls.Add(textBox1, 0, 1);
-            tableLayoutPanel2.Controls.Add(label1, 0, 0);
-            tableLayoutPanel2.Location = new Point(3, 3);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(244, 56);
-            tableLayoutPanel2.TabIndex = 6;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(125, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(70, 20);
-            label2.TabIndex = 9;
-            label2.Text = "Mật khẩu";
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(125, 31);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(116, 27);
-            textBox2.TabIndex = 7;
-            textBox2.UseSystemPasswordChar = true;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(3, 31);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(116, 27);
-            textBox1.TabIndex = 6;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(71, 20);
-            label1.TabIndex = 8;
-            label1.Text = "Tài khoản";
+            supportLabel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            supportLabel.AutoSize = true;
+            supportLabel.BackColor = Color.FromArgb(248, 250, 252);
+            mainPanel.SetColumnSpan(supportLabel, 2);
+            supportLabel.Font = new Font("Segoe UI", 8.5F);
+            supportLabel.ForeColor = Color.FromArgb(97, 117, 137);
+            supportLabel.Location = new Point(53, 526);
+            supportLabel.Name = "supportLabel";
+            supportLabel.Size = new Size(426, 28);
+            supportLabel.TabIndex = 7;
+            supportLabel.Text = "Hỗ trợ kỹ thuật: IT Dept (Ext: 102)";
+            supportLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
-            panel1.Controls.Add(tableLayoutPanel1);
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.SetColumnSpan(panel1, 2);
+            panel1.Controls.Add(passwordTextBox);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(50, 300);
+            panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(382, 203);
-            panel1.TabIndex = 6;
+            panel1.Padding = new Padding(20, 0, 0, 0);
+            panel1.Size = new Size(432, 32);
+            panel1.TabIndex = 8;
+            // 
+            // passwordTextBox
+            // 
+            passwordTextBox.BorderStyle = BorderStyle.None;
+            passwordTextBox.Font = new Font("Segoe UI", 11F);
+            passwordTextBox.Location = new Point(23, 2);
+            passwordTextBox.Name = "passwordTextBox";
+            passwordTextBox.PasswordChar = '*';
+            passwordTextBox.PlaceholderText = "Nhập mật khẩu";
+            passwordTextBox.Size = new Size(404, 25);
+            passwordTextBox.TabIndex = 5;
+            passwordTextBox.UseSystemPasswordChar = true;
+            // 
+            // panel2
+            // 
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.SetColumnSpan(panel2, 2);
+            panel2.Controls.Add(usernameTextBox);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(50, 218);
+            panel2.Margin = new Padding(0);
+            panel2.Name = "panel2";
+            panel2.Padding = new Padding(20, 0, 0, 0);
+            panel2.Size = new Size(432, 32);
+            panel2.TabIndex = 9;
+            // 
+            // usernameTextBox
+            // 
+            usernameTextBox.BorderStyle = BorderStyle.None;
+            usernameTextBox.Font = new Font("Segoe UI", 11F);
+            usernameTextBox.Location = new Point(20, 2);
+            usernameTextBox.Margin = new Padding(0, 5, 0, 0);
+            usernameTextBox.Name = "usernameTextBox";
+            usernameTextBox.PlaceholderText = "Ví dụ: NV12345";
+            usernameTextBox.Size = new Size(410, 25);
+            usernameTextBox.TabIndex = 3;
+            // 
+            // logoBox
+            // 
+            logoBox.BackColor = Color.FromArgb(230, 240, 252);
+            logoBox.Location = new Point(532, 40);
+            logoBox.Name = "logoBox";
+            logoBox.Size = new Size(64, 64);
+            logoBox.SizeMode = PictureBoxSizeMode.CenterImage;
+            logoBox.TabIndex = 0;
+            logoBox.TabStop = false;
             // 
             // LoginForm
             // 
-            AcceptButton = loginButton;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            CancelButton = cancelButton;
-            ClientSize = new Size(382, 203);
-            Controls.Add(panel1);
+            ClientSize = new Size(532, 574);
+            Controls.Add(mainPanel);
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng nhập";
             Load += Form1_Load;
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
+            mainPanel.ResumeLayout(false);
+            mainPanel.PerformLayout();
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
             ResumeLayout(false);
+        }
+
+        private void ApplyModernStyling()
+        {
+            logoBox.Paint += (s, e) =>
+            {
+                using (GraphicsPath path = GetRoundedRectangle(logoBox.ClientRectangle, 32))
+                {
+                    logoBox.Region = new Region(path);
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                    // Draw medical cross icon
+                    using (Brush brush = new SolidBrush(Color.FromArgb(19, 127, 236)))
+                    {
+                        // Vertical bar
+                        e.Graphics.FillRectangle(brush, 24, 16, 16, 32);
+                        // Horizontal bar
+                        e.Graphics.FillRectangle(brush, 16, 24, 32, 16);
+                    }
+                }
+            };
+        }
+
+        private GraphicsPath GetRoundedRectangle(Rectangle rect, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            int diameter = radius * 2;
+
+            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
+            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
+            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+
+            return path;
         }
 
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
-        private TableLayoutPanel tableLayoutPanel2;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TableLayoutPanel mainPanel;
+        private Label titleLabel;
+        private PictureBox logoBox;
+        private Label subtitleLabel;
+        private Label usernameLabel;
+        private Label passwordLabel;
+        private TextBox passwordTextBox;
         private Button loginButton;
+        private Label supportLabel;
         private Panel panel1;
-        private TableLayoutPanel tableLayoutPanel3;
-        private Button cancelButton;
-        private Label label2;
-        private Label label1;
+        private Panel panel2;
+        private TextBox usernameTextBox;
     }
 }

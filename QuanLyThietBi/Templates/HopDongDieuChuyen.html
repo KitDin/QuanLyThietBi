@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Biên bản bàn giao</title>
+
+<style>
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 13pt;
+        margin: 1.27cm 1.600cm 0.635cm 2.235cm;
+        line-height: 1.4;
+    }
+
+    .left { text-align: left; }
+    .center { text-align: center; }
+    .bold { font-weight: bold; }
+    .italic { font-style: italic; }
+
+    .fs-14 { font-size: 14pt; }
+
+    .mt-10 { margin-top: 10px; }
+    .mt-20 { margin-top: 20px; }
+    .mt-30 { margin-top: 30px; }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    table, th, td {
+        border: 0.5px solid black;
+    }
+
+    th, td {
+        padding: 6px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+.header-table {
+   width: 100%;
+  border: none !important;
+}
+
+.header-table td {
+    border: none !important;
+    vertical-align: top;
+}
+
+.header-left, .header-right {
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.header-text {
+    font-size: 13pt;
+}
+
+.underline {
+    width: 30%;
+    margin: 4px auto 0;
+    border-bottom: 1px solid #000;
+}
+
+.date-line {
+    text-align: right;
+    font-style: italic;
+    font-size: 12pt;
+    margin-top: 8px;
+    padding-right: 6px;
+ font-weight: normal;
+}
+</style>
+</head>
+
+<body>
+<table class="header-table">
+    <tr>
+        <td class="header-left">
+            <div class="header-text"> CÔNG TY CP BỆNH VIỆN <br>
+                ĐA KHOA TÂM TRÍ CAO LÃNH </div>
+            <div class="underline"></div>
+        </td>
+
+        <td class="header-right">
+            <div class="header-text">
+                CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+                Độc lập – Tự do – Hạnh phúc
+            </div>
+            <div class="underline"></div>
+
+            <div class="date-line">
+                Đồng Tháp, ngày {{Ngay}} tháng {{Thang}} năm {{Nam}}.
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<div class="center bold mt-20 fs-14">
+    BIÊN BẢN BÀN GIAO VÀ NGHIỆM THU
+</div>
+
+
+<div class="center mt-10">
+    -------------------------
+</div>
+
+<div class="mt-20">
+    Hôm nay, ngày {{Ngay}} tháng {{Thang}} năm {{Nam}},
+    tại Công ty Cổ phần Bệnh viện Đa khoa Tâm Trí Cao Lãnh, hai bên tiến hành bàn giao và nghiệm thu tài sản như sau:
+</div>
+
+<div class="mt-20 bold">
+    BÊN GIAO:
+</div>
+
+<div>
+    Ông/Bà: {{DaiDienA}}
+</div>
+<div>
+    Chức vụ: {{ChucVuA}}
+</div>
+<div>
+    Đơn vị: {{DonViA}}
+</div>
+
+<div class="mt-20 bold">
+    BÊN NHẬN:
+</div>
+
+<div>
+    Ông/Bà: {{DaiDienB}}
+</div>
+<div>
+    Chức vụ: {{ChucVuB}}
+</div>
+<div>
+    Đơn vị: {{DonViB}}
+</div>
+
+<div class="mt-20">
+    Hai bên tiến hành bàn giao và nghiệm thu tài sản với nội dung theo bảng thống kê như sau:
+</div>
+
+<div class="center bold mt-20">
+BẢNG THỐNG KÊ TÀI SẢN BÀN GIAO VÀ NGHIỆM THU
+</div>
+
+<table class="mt-10">
+    <tr>
+        <th>STT</th>
+        <th>Tên hàng</th>
+        <th>ĐVT</th>
+        <th>Số lượng</th>
+        <th>Ghi chú</th>
+    </tr>
+    {{BangTaiSan}}
+</table>
+
+<div class="mt-20">
+    Biên bản được lập thành 02 bản, mỗi bên giữ 01 bản và có giá trị pháp lý như nhau.
+</div>
+
+<table class="header-table">
+    <tr>
+        <td class="header-left">
+            <div class="header-text"> Đại diện bên giao
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                </div>
+
+             <div class="header-text mt-30">
+               {{DaiDienA}}
+            </div>
+        </td>
+
+        <td class="header-right">
+            <div class="header-text">
+                Đại diện bên nhận
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+            </div>
+
+            <div class="header-text mt-30">
+               {{DaiDienB}}
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+</body>
+</html>
