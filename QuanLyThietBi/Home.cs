@@ -29,6 +29,8 @@ namespace QuanLyThietBi
             form.Dock = DockStyle.Fill;
             panelContent.Controls.Add(form);
             form.Show();
+
+
         }
 
         private void ActiveButton(Button btn)
@@ -92,6 +94,12 @@ namespace QuanLyThietBi
             panelDanhMucConQL.Visible = false;
         }
 
+        private void home_Load(object sender, EventArgs e)
+        {
+            ActiveButton(btnThongKe);
+            panelDanhMucConQL.Visible = false;
+            LoadForm(new ThongKeForm());
+        }
     }
 
 

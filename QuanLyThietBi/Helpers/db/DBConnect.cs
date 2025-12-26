@@ -14,6 +14,15 @@ namespace QuanLyThietBi.Helpers.db
                 Connect Timeout=30;
                 MultipleActiveResultSets=True";
 
+        private static readonly string localConnectionString = @"
+                Server=localhost;
+                Database=QuanLyThietBi;
+                User ID=QuanLyUser;
+                Password=MatKhau@123;
+                TrustServerCertificate=True;
+                Connect Timeout=30;
+                MultipleActiveResultSets=True";
+
         public static string GetConnectionString()
         {
             return connectionString;
@@ -23,7 +32,7 @@ namespace QuanLyThietBi.Helpers.db
         {
             try
             {
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlConnection sqlConnection = new SqlConnection(localConnectionString);
                 sqlConnection.Open();
                 return sqlConnection;
             }

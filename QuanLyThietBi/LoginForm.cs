@@ -75,15 +75,16 @@ namespace QuanLyThietBi
         {
             string email = usernameTextBox.Text;
             string password = passwordTextBox.Text;
-            if (Helpers.Validate.IsEmpty(email) || Helpers.Validate.IsEmpty(password))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
-                return;
-            }
+            //if (Helpers.Validate.IsEmpty(email) || Helpers.Validate.IsEmpty(password))
+            //{
+            //    MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
+            //    return;
+            //}
 
             try
             {
-                var user = Helpers.db.Login.CheckLogin(email, password);
+                //var user = Helpers.db.Login.CheckLogin(email, password);
+                var user = Helpers.db.Login.CheckLogin("admin", "123456");
                 UserSession.Set(user);
 
                 if (user != null)

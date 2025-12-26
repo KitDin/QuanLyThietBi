@@ -227,7 +227,6 @@ namespace QuanLyThietBi.Helpers.db
             }
             return list;
         }
-
         public List<Model.PhongBanModel> SearchPhongBan(string key)
         {
             List<Model.PhongBanModel> list = new List<Model.PhongBanModel>();
@@ -252,8 +251,6 @@ namespace QuanLyThietBi.Helpers.db
             }
             return list;
         }
-
-
 
         public List<Model.LoaiThietBiModel> GetAllLoaiThietBi()
         {
@@ -303,5 +300,71 @@ namespace QuanLyThietBi.Helpers.db
             return list;
         }
 
+        public List<Model.TrangThaiSuDungModel> So_luong()
+        {
+            List<Model.TrangThaiSuDungModel> list = new List<Model.TrangThaiSuDungModel>();
+
+            using (var conn = DBConnect.GetSQLConnector())
+            {
+                string sql = @"
+                SELECT 
+                    tt.Ma_trang_thai,
+                    tt.Ten_trang_thai,
+                    COUNT(tt.Ma_trang_thai) AS So_luong
+                FROM 
+                    Trang_thai_su_dung tt
+                LEFT JOIN 
+                    Trang_thiet_bi ttb ON tt.Ma_trang_thai = ttb.Ma_trang_thai
+                GROUP BY 
+                    tt.Ma_trang_thai, tt.Ten_trang_thai";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    using (var rd = cmd.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            list.Add(new Model.TrangThaiSuDungModel
+                            {
+                                Ma_trang_thai = Convert.ToInt32(rd["Ma_trang_thai"]),
+                                Ten_trang_thai = rd["Ten_trang_thai"].ToString(),
+                                So_luong = Convert.ToInt32(rd["So_luong"])
+                            });
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<Model.ThongKeThangModel> GetThongKeThang(int year)
+        {
+
+            List<Model.ThongKeThangModel> list = new List<Model.ThongKeThangModel>();
+            using (var conn = DBConnect.GetSQLConnector())
+            {
+                string sql = "EXEC sp_ThongKeThietBiTheoThang @nam=@year";
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@year", year);
+
+                    using (var rd = cmd.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            list.Add(new Model.ThongKeThangModel
+                            {
+                                Thang = Convert.ToInt32(rd["Thang"]),
+                                SoThietBiMuaMoi = Convert.ToInt32(rd["SoThietBiMuaMoi"]),
+                                SoThietBiBaoTri = Convert.ToInt32(rd["SoThietBiBaoTri"]),
+                                SoThietBiHetBaoHanh = Convert.ToInt32(rd["SoThietBiHetBaoHanh"]),
+                                SoThietBiDuaVaoSuDung = Convert.ToInt32(rd["SoThietBiDuaVaoSuDung"]),
+                                SoThietBiThemMoi = Convert.ToInt32(rd["SoThietBiThemMoi"])
+                            });
+                        }
+                    }
+                }
+            }
+            return list;
+        }
     }
 }

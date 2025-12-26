@@ -339,6 +339,7 @@
             Name = "home";
             Text = "Quản Lý Thiết Bị";
             WindowState = FormWindowState.Maximized;
+            Load += home_Load;
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);

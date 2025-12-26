@@ -31,5 +31,34 @@ namespace QuanLyThietBi.Helpers.db
 
             return phongBan;
         }
+
+        public List<Model.PhongBanModel> GetSoLuong()
+        {
+            List<Model.PhongBanModel> list = new List<Model.PhongBanModel>();
+            string sql = @"SELECT 
+                                pb.Ten_phong_ban,
+                                COUNT(ttb.Ma_trang_thiet_bi) AS SoLuongThietBi
+                            FROM Trang_thiet_bi ttb
+                            RIGHT JOIN Phong_ban pb ON ttb.Ma_phong_ban = pb.Ma_phong_ban
+                            GROUP BY pb.Ten_phong_ban
+                            ORDER BY SoLuongThietBi DESC";
+            using (SqlConnection conn = DBConnect.GetSQLConnector())
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                using (SqlDataReader rd = cmd.ExecuteReader())
+                {
+                    while (rd.Read())
+                    {
+                        var phongBan = new Model.PhongBanModel()
+                        {
+                            Ten_phong_ban = rd.GetString(rd.GetOrdinal("ten_phong_ban")),
+                            So_luong = rd.GetInt32(rd.GetOrdinal("SoLuongThietBi"))
+                        };
+                        list.Add(phongBan);
+                    }
+                }
+            }
+            return list;
+        }
     }
 }
